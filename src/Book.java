@@ -1,8 +1,6 @@
 /**
  * This class can store information about different books that gets
  * added to the class.
- *
- * WATESAFJHGSKJGHAGLJALGJALSGAJLGØHSEFJKGLRØHJFLNGSJØFGNSKDJL
  */
 public class Book {
     /**
