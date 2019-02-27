@@ -1,5 +1,3 @@
-
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -8,32 +6,29 @@ import java.util.Scanner;
  * Responsible for all user interaction, like displaying the menu
  * and receiving input from the user.
  *
- * @author andesob
+ * @author asty
  * @version 1.0
  */
 public class ApplicationUI
 {
+    Registry bookRegistry = new Registry();
 
-   
     // The menu tha will be displayed. Please edit/alter the menu
-    // to fit your application (i.e. replace "product" with "literature"
+    // to fit your application (i.e. replace "product" with "litterature"
     // etc.
     private String[] menuItems = {
-        "1. List all books",
-        "2. Add new book",
-        "3. Find a book by title",
-        "4. Remove a book by title"
+            "1. List all products",
+            "2. Add new product",
+            "3. Find a product by name",
+            "4. Remove a book by title"
     };
-
-
-    private Registry bookRegister;
 
     /**
      * Creates an instance of the ApplicationUI User interface.
      */
     public ApplicationUI()
     {
-        bookRegister = new Registry();
+
     }
 
     /**
@@ -46,54 +41,50 @@ public class ApplicationUI
 
         boolean quit = false;
 
-        while (!quit) 
+        while (!quit)
         {
-            try 
+            try
             {
                 int menuSelection = this.showMenu();
-                switch (menuSelection) 
+                switch (menuSelection)
                 {
                     case 1:
-                        this.listAllBooks();
+                        this.listAllProducts();
                         break;
 
                     case 2:
-                        this.addNewBook();
+                        this.addNewProduct();
                         break;
 
                     case 3:
-                        this.findBookByTitle();
+                        this.findProductByName();
                         break;
 
                     case 4:
-                        this.removeBookByTitle();
-                        break;
-
-                    case 5:
                         System.out.println("\nThank you for using Application v0.1. Bye!\n");
                         quit = true;
                         break;
+
                     default:
                 }
-            } 
-            catch (InputMismatchException ime) 
+            }
+            catch (InputMismatchException ime)
             {
                 System.out.println("\nERROR: Please provide a number between 1 and " + this.menuItems.length + "..\n");
             }
-        }        
-        
+        }
     }
 
     /**
      * Displays the menu to the user, and waits for the users input. The user is
-     * expected to input an integer between 1 and the max number of menu items. 
-     * If the user inputs anything else, an InputMismatchException is thrown. 
+     * expected to input an integer between 1 and the max number of menu items.
+     * If the user inputs anything else, an InputMismatchException is thrown.
      * The method returns the valid input from the user.
      *
      * @return the menu number (between 1 and max menu item number) provided by the user.
      * @throws InputMismatchException if user enters an invalid number/menu choice
      */
-    private int showMenu() throws InputMismatchException 
+    private int showMenu() throws InputMismatchException
     {
         System.out.println("\n**** Application v0.1 ****\n");
         // Display the menu
@@ -108,16 +99,16 @@ public class ApplicationUI
         // Read input from user
         Scanner reader = new Scanner(System.in);
         int menuSelection = reader.nextInt();
-        if ((menuSelection < 1) || (menuSelection > maxMenuItemNumber)) 
+        if ((menuSelection < 1) || (menuSelection > maxMenuItemNumber))
         {
             throw new InputMismatchException();
         }
         return menuSelection;
     }
-    
+
     // ------ The methods below this line are "helper"-methods, used from the menu ----
-    // ------ All these methods are made private, since they are only used by the menu ---
-    
+    // ------ All these methods are made privat, since they are only used by the menu ---
+
     /**
      * Initializes the application.
      * Typically you would create the LiteratureRegistrer-instance here
@@ -130,58 +121,60 @@ public class ApplicationUI
     /**
      * Lists all the products/literature in the register
      */
-    private void listAllBooks()
+    private void listAllProducts()
     {
-        ArrayList<Book> bookArrayList = bookRegister.getBookList();
-        for (Book book: bookArrayList){
-            System.out.println(bookInfo(book));
+        for(Book book: bookRegistry.getBooklist()) {
+            System.out.println(bookDetails( book));
             System.out.println("\n");
         }
-        System.out.println("listAllBooks() was called");
+
+        System.out.println("listAllProducts() was called");
     }
 
-    
+
     /**
      * Add a new product/literature to the register.
      * In this method you have to add code to ask the
-     * user for the necessary information you need to 
+     * user for the necessary information you need to
      * create an instance of the product, which you
      * then send as a parameter to the addNewspaper()-
      * method of the register.
      * Remember to also handle invalid input from the
      * user!!
      */
-    private void addNewBook()
+    private void addNewProduct()
     {
-        System.out.println("What is the name of the author?");
+        System.out.println("What's the title of the book?");
         Scanner reader = new Scanner(System.in);
-        String author = reader.nextLine();
-
-        System.out.println("What is the title of the book?");
         String title = reader.nextLine();
 
-        System.out.println("Who published the book?");
+        System.out.println("Who's the author of the book");
+        String author = reader.nextLine();
+
+        System.out.println("Who's the publisher of the book?");
         String publisher = reader.nextLine();
 
-        System.out.println("Which edition of the book is it?");
+        System.out.println("What's the edition of the book?");
         String edition = reader.nextLine();
 
+        System.out.println("What's the publish-date of the book?");
+        String publishdate = reader.nextLine();
 
-        System.out.println("What date was the book published?");
-        String date = reader.nextLine();
+        System.out.println("is the book a series? if yes, type: y. If not, type: n");
 
-        System.out.println("Is the book part of a series? If yes type y, if no type n");
-        if (reader.nextLine().equalsIgnoreCase("y")){
-            System.out.println("What is the series' title?");
-            String seriesTitle = reader.nextLine();
-            bookRegister.addBook(new Book(author, title, publisher, edition, date, seriesTitle));
+        String answer  = reader.nextLine();
+        if(answer.equalsIgnoreCase("y") ) {
+
+            System.out.println("What's the seriestitle?");
+            String seriestitle = reader.nextLine();
+            bookRegistry.addBook( new Book(title,author, publisher, edition, publishdate, seriestitle));
+    }
+        else {
+            bookRegistry.addBook(new Book(title, author, publisher, edition, publishdate));
         }
-        else{
-            bookRegister.addBook(new Book(author, title, publisher, edition, date));
-        }
-
 
         System.out.println("addNewProduct() was called");
+
     }
 
     /**
@@ -193,47 +186,40 @@ public class ApplicationUI
      * Then, upon return from the register, you need
      * to print the details of the found item.
      */
-    private void findBookByTitle()
+    private void findProductByName()
     {
         Scanner reader = new Scanner(System.in);
-        System.out.println("What is the title of the book?");
-        String title = reader.nextLine();
+        System.out.println("What's the name for the book that you're searching for?");
 
-        Book book = bookRegister.findBookByTitle(title);
+        String bookTitle = reader.nextLine();
+        Book book = bookRegistry.findBookByTitle(bookTitle);
 
-        if(book == null){
+        if (book == null) {
             System.out.println("Title not found");
             return;
         }
 
-        System.out.println(bookInfo(book));
+        System.out.println(bookDetails(book));
 
-        System.out.println();
-        System.out.println("findBookByName() was called");
+
+        System.out.println("findProductByName() was called");
     }
 
-
-    private void removeBookByTitle(){
-        Scanner reader = new Scanner(System.in);
-        System.out.println("What is the title of the book you want to remove?");
-        String title = reader.nextLine();
-
-        bookRegister.removeBookByTitle(title);
-    }
-
-    private String bookInfo(Book book){
+    private String bookDetails(Book book) {
         String title = book.getTitle();
         String author = book.getAuthor();
-        String date = book.getPublishDate();
         String publisher = book.getPublisher();
+        String publishdate = book.getPublishDate();
         String edition = book.getEdition();
+        String seriesTitle = book.getSeriesTitle();
 
-        if(book.isSeries()){
-            String seriesTitle = book.getSeriesTitle();
-            return "Title: " + title + "\nSeries title: " + seriesTitle + "\nAuthor: " + author + "\nDate: " + date + "\nPublisher: " + publisher + "\nEdition: " + edition;
+        if (book.isSerie()) {
+            return "Title: " + title + "\nSeries title: " + seriesTitle + "\nAuthor: " + author + "\nDate: " + publishdate + "\nPublisher: " + publisher + "\nEdition: " + edition;
         }
         else {
-            return "Title: " + title + "\nAuthor: " + author + "\nDate: " + date + "\nPublisher: " + publisher + "\nEdition: " + edition;
+            return "Title: " + title + "\nAuthor: " + author + "\nDate: " + publisher + "\nPublisher: " + publisher + "\nEdition: " + edition;
         }
     }
-}
+    }
+
+

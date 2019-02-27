@@ -1,12 +1,10 @@
 /**
  * This class can store information about different books that gets
  * added to the class.
- *
- * WATESAFJHGSKJGHAGLJALGJALSGAJLGØHSEFJKGLRØHJFLNGSJØFGNSKDJL
  */
 public class Book {
     /**
-     * The fields for the class
+     * The fields for the class.
      */
     private String author;
     private String title;
@@ -15,10 +13,13 @@ public class Book {
     private String publishDate;
     private String seriesTitle;
     private boolean isSerie;
+    /**
+     * Maybe add a price for the book?.
+     */
 
     /**
-     * <ul>
      * The constructor of the class.
+     * <ul>
      * <li> @param author The author of the book.</li>
      * <li> @param title The title of the book.</li>
      * <li> @param edition The volume/edition of the book</li>
@@ -114,9 +115,29 @@ public class Book {
         return seriesTitle;
     }
 
+    public boolean isSerie() {
+        return isSerie;
+    }
+
+
+/**
+    public void setSeriesTitle(String seriesTitle) {
+        this.seriesTitle = seriesTitle;
+    }
+    public void setSerie(String statement) {
+        if ("true".equalsIgnoreCase(statement)) {
+            isSerie = true;
+        }
+        else if("false".equalsIgnoreCase("statement")) {
+            isSerie = false;
+        }
+        else{
+            System.out.println("Wrong statement. Choose true or false");
+        }
+    }
+ **/
 
     /**
-     * Convert to series.
      *
      * @param seriesTitle the series title
      */
@@ -127,9 +148,5 @@ public class Book {
         } else {
             System.out.println("The book is already a series");
         }
-    }
-
-    public boolean isSeries(){
-        return isSerie;
     }
 }

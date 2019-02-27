@@ -10,17 +10,13 @@ public class main {
      * @param args the input arguments
      */
     public static void main(String[] args) {
+        String paragraph = "------------------------------------";
+
 
         ApplicationUI appUI = new ApplicationUI();
         appUI.start();
 
-
-
-
-        /*
-        String paragraph = "------------------------------------";
-
-        Registry registry1 = new Registry();
+       /* Registry registry1 = new Registry();
         registry1.fillRegistryWithDummies();
         System.out.println("Number of books: " + registry1.getNumberOfBooks());
         registry1.removeBookByTitle("bruh");
@@ -42,12 +38,13 @@ public class main {
         registry1.listByTitle("trondheim");
         Book tjommi = registry1.findBookByTitle("Tjommi");
         tjommi.convertToSeries("Acer");
+       // registry1.convertToSeries2(tjommi,"Acer");
 
         System.out.println(paragraph);
         ArrayList<Book> publisher = registry1.findBookByPublisher("NTNU");
         for (Book b : publisher) {
             System.out.println(b.listAllInfo());
             System.out.println();
-        }*/
-    }
-}
+        }
+    }*/
+} }

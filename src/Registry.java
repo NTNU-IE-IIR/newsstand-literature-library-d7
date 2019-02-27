@@ -57,18 +57,10 @@ public class Registry {
     /**
      * List all the details of every book.
      */
-    public ArrayList<Book> getBookList() {
-        return bookList;
-    }
+    public ArrayList<Book> getBooklist() {
 
-    /**
-     * Search for a given book by the index number.
-     *
-     * @param index The number in the array where the book is stored.
-     */
-    public void searchBookByIndex(int index) {
-        Book book = bookList.get(index);
-    }
+            return bookList;
+        }
 
     /**
      * Removes one of the books from the array.
@@ -83,18 +75,6 @@ public class Registry {
         }
     }
 
-    /**
-     * List by title.
-     *
-     * @param title the title
-     */
-    public void listByTitle(String title) {
-        for (Book book : bookList) {
-
-            if (book.getTitle().contains(title)) {
-            }
-        }
-    }
 
     /**
      * Find book by title.
@@ -108,7 +88,7 @@ public class Registry {
         Iterator<Book> it = this.bookList.iterator();
         while (it.hasNext()) {
             Book b = it.next();
-            if (b.getTitle().equals(title)){
+            if (b.getTitle().equals(title)) {
                 return b;
             }
         }
@@ -167,5 +147,18 @@ public class Registry {
         return publisherBookList;
     }
 
-}
+/**
+    public void convertToSeries2(Book book, String seriesTitle)
+    {
+        if (!book.isSerie())
+        {
+            book.setSerie("true");
+            book.setSeriesTitle(seriesTitle);
+        }
+        else {
+            System.out.println("The book is already in a series");
+        }
+    }
+ **/
 
+}
