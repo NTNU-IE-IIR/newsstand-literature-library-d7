@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
+ * aefsrgthfyjdjsdglsjgljglskglsjgsdgdsøgjsøgøsdskøgeøøsakcøsdtjøeaføs
  * The registry for the project. The registry provides different types of searching- and remove functions.
  */
 public class Registry {
