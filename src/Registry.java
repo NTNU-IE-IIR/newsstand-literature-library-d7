@@ -79,8 +79,6 @@ public class Registry {
     public void removeBookByIndex(int index) {
         if (index < bookList.size()) {
             bookList.remove(index);
-        } else {
-            System.out.println("Book is not in registery");
         }
     }
 
@@ -104,12 +102,10 @@ public class Registry {
      * @return the book
      */
     public Book findBookByTitle(String title) {
-        boolean found = false;
-
         Iterator<Book> it = this.bookList.iterator();
         while (it.hasNext()) {
             Book b = it.next();
-            if (b.getTitle().equals(title)){
+            if (b.getTitle().equals(title)) {
                 return b;
             }
         }
@@ -121,21 +117,17 @@ public class Registry {
      *
      * @param title the title of the book you want to remove.
      */
-    public void removeBookByTitle(String title) {
-        boolean found = false;
-
+    public Book removeBookByTitle(String title) {
         Iterator<Book> it = this.bookList.iterator();
 
-        while (it.hasNext() && !found) {
+        while (it.hasNext()) {
             Book b = it.next();
             if (b.getTitle().equalsIgnoreCase(title)) {
                 bookList.remove(b);
-                found = true;
+                return b;
             }
         }
-        if (found == false) {
-            System.out.println("Title not found");
-        }
+        return null;
     }
 
     /**
