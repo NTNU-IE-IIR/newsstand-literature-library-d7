@@ -190,7 +190,7 @@ public class ApplicationUI {
 
 
     /**
-     * Find and display a product based om name (title).
+     * Find and display a product based on name (title).
      * As with the addNewProduct()-method, you have to
      * ask the user for the string (name/title/publisher)
      * to search for, and then use this string as input-
