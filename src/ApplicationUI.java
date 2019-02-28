@@ -33,6 +33,7 @@ public class ApplicationUI {
     public ApplicationUI() {
     }
 
+
     /**
      * Starts the application by showing the menu and retrieving input from the
      * user.
@@ -75,6 +76,7 @@ public class ApplicationUI {
 
     }
 
+
     /**
      * Displays the menu to the user, and waits for the users input. The user is
      * expected to input an integer between 1 and the max number of menu items.
@@ -108,11 +110,12 @@ public class ApplicationUI {
 
     /**
      * Initializes the application.
-     * Typically you would create the LiteratureRegistrer-instance here
+     * Typically you would create the LiteratureRegistry-instance here
      */
     private void init() {
         bookRegister = new Registry();
     }
+
 
     /**
      * Lists all the products/literature in the register
@@ -121,8 +124,13 @@ public class ApplicationUI {
         ArrayList<Book> bookArrayList = bookRegister.getBookList();
 
         if (bookArrayList.size() == 0) {
-            System.out.println("\nThere are no books in the register.");
+            System.out.println("\nThere are no books in the registry.");
         } else {
+            if (bookArrayList.size() == 1){
+                System.out.println("\nThere is 1 book in the registry");
+            }else{
+            System.out.println("\nThere are " + bookRegister.getNumberOfBooks() + " books in the registry");
+            }
             for (Book book : bookArrayList) {
                 System.out.println("\n");
                 System.out.println("-----------------------");
@@ -165,7 +173,7 @@ public class ApplicationUI {
         Boolean spellcheck = true;
 
         while (spellcheck) {
-        String input = reader.nextLine();
+            String input = reader.nextLine();
             if (input.equalsIgnoreCase("y")) {
                 System.out.println("What is the series' title?");
                 String seriesTitle = reader.nextLine();
@@ -179,6 +187,7 @@ public class ApplicationUI {
             }
         }
     }
+
 
     /**
      * Find and display a product based om name (title).
@@ -214,10 +223,11 @@ public class ApplicationUI {
         Book book = bookRegister.removeBookByTitle(title);
         if (book == null) {
             System.out.println("\nThe book is not in the register");
-        } else{
+        } else {
             System.out.println("\nYou removed " + book.getTitle() + " from the registry!");
         }
     }
+
 
     private String bookInfo(Book book) {
         String title = book.getTitle();

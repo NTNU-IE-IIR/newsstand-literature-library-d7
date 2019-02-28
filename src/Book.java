@@ -12,18 +12,10 @@ public class Book {
     private String edition;
     private String publishDate;
     private String seriesTitle;
-    private boolean isSerie;
+    private boolean isSeries;
 
     /**
-     * <ul>
      * The constructor of the class.
-     * <li> @param author The author of the book.</li>
-     * <li> @param title The title of the book.</li>
-     * <li> @param edition The volume/edition of the book</li>
-     * <li> @param publishDate The date the book was published.</li>
-     * <li> @param publisher The publisher of the book</li>
-     * </ul>
-     *
      * @param author      the author
      * @param title       the title
      * @param publisher   the publisher
@@ -46,16 +38,16 @@ public class Book {
      * @param publisher   the publisher
      * @param edition     the edition
      * @param publishDate the publish date
-     * @param serieTitle  the serie title
+     * @param seriesTitle  the series title
      */
-    public Book(String author, String title, String publisher, String edition, String publishDate, String serieTitle) {
+    public Book(String author, String title, String publisher, String edition, String publishDate, String seriesTitle) {
         this.author = author;
         this.title = title;
-        this.seriesTitle = serieTitle;
+        this.seriesTitle = seriesTitle;
         this.publisher = publisher;
         this.edition = edition;
         this.publishDate = publishDate;
-        this.isSerie = true;
+        this.isSeries = true;
     }
 
     /**
@@ -79,7 +71,7 @@ public class Book {
     /**
      * Returns the books publisher.
      *
-     * @return The publiser.
+     * @return The publisher.
      */
     public String getPublisher() {
         return publisher;
@@ -104,9 +96,9 @@ public class Book {
     }
 
     /**
-     * Gets serie number.
+     * Gets series title.
      *
-     * @return the serie title.
+     * @return the series title.
      */
     public String getSeriesTitle() {
         return seriesTitle;
@@ -119,15 +111,20 @@ public class Book {
      * @param seriesTitle the series title
      */
     public void convertToSeries(String seriesTitle) {
-        if (!isSerie) {
-            isSerie = true;
+        if (!isSeries) {
+            isSeries = true;
             this.seriesTitle = seriesTitle;
         } else {
             System.out.println("The book is already a series");
         }
     }
 
+    /**
+     * Is series boolean.
+     *
+     * @return the boolean
+     */
     public boolean isSeries(){
-        return isSerie;
+        return isSeries;
     }
 }
