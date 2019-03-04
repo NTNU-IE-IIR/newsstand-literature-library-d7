@@ -18,6 +18,25 @@ public class Registry {
     }
 
     /**
+     * Fill registry with dummies.
+     */
+    /*public void fillRegistryWithDummies() {
+        Book book1 = new Book("Eskil", "Trondheim", "NTNU", "volum8", "04.01.2019");
+        Book book2 = new Book("Hurlen", "Lillestrøm", "NTNU", "volum9", "04.07.2019");
+        Book book3 = new Book("Eskil", "Tjommi", "NTNU", "volum3", "019.02.2017");
+        Book book4 = new Book("Yusuf", "Bruh", "NTNU", "volumHæ", "01.01.2001");
+        Book book5 = new Book("Sigurd", "Shiii", "Smartwater", "volumHæ", "01.01.2001", "Samsung");
+        Book book6 = new Book("Rune", "Pose", "Tastatur", "volumHæ", "01.01.2001", "Varsom");
+        addBook(book1);
+        addBook(book2);
+        addBook(book3);
+        addBook(book4);
+        addBook(book5);
+        addBook(book6);
+    }*/
+
+
+    /**
      * Adds a book to the registry.
      *
      * @param book the book
@@ -114,6 +133,9 @@ public class Registry {
             if (b.getAuthor().equalsIgnoreCase(author)) {
                 authorBookList.add(b);
             }
+        }
+        if(authorBookList.size() == 0){
+            throw new UgyldigListeIndeks(0);
         }
         return authorBookList;
     }
