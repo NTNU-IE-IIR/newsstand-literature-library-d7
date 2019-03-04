@@ -38,7 +38,7 @@ public class RegistryTest {
 
     @Test
     public void addBook() {
-        Book bok1 = new Book("HP", "Anders", "NTNU", "4", "1504");
+        Book bok1 = new Book("", "Anders", "NTNU", "4", "1504");
         Book bok2 = new Book("HP", "Anders", "NTNU", "4", "1504");
         test.addBook(bok1);
         ArrayList<Book> testList = test.getBookList();
@@ -49,7 +49,7 @@ public class RegistryTest {
     @Test
     public void getNumberOfBooks() {
         int expected = 6;
-        int expectedFalse = 6666;
+        int expectedFalse = 0;
         int result = test.getNumberOfBooks();
         assertEquals(expected, result);
         assertNotEquals(expectedFalse, result);
@@ -58,17 +58,19 @@ public class RegistryTest {
 
     @Test
     public void findBookByTitle() {
-        Book result = test.findBookByTitle("Bruh");
+        Book result1 = test.findBookByTitle("Bruh");
+        Book result2 = test.findBookByTitle("");
         Book expectedTrue = book4;
         Book expectedFalse = book1;
-        assertEquals(expectedTrue, result);
-        assertNotEquals(expectedFalse, result);
+        assertEquals(expectedTrue, result1);
+        assertNotEquals(expectedFalse, result1);
+        assertNotEquals(expectedTrue, result2);
     }
 
     @Test
     public void removeBookByTitle() {
-        test.removeBookByTitle("Bruh");
-        assertFalse(test.getBookList().contains(book4));
+        Book temp = test.removeBookByTitle("Bruh");
+        assertFalse(test.getBookList().contains(temp));
         assertTrue(test.getBookList().contains(book1));
     }
 
@@ -82,7 +84,5 @@ public class RegistryTest {
             assertEquals(expected, b.getAuthor());
             assertNotEquals(expectedFalse, b.getAuthor());
         }
-
-
     }
 }

@@ -171,16 +171,51 @@ public class ApplicationUI {
         System.out.println("What date was the book published?");
         String date = reader.nextLine();
 
-        System.out.println("Is the book part of a series? If yes type y, if no type n");
+        int errors = 0;
+
+        if(author.length()==0){
+            System.out.println("\nThe book has to have an author");
+            errors += 1;
+        }
+        if(title.length()==0){
+            System.out.println("\nThe book has to have a title");
+            errors += 1;
+        }
+        if(publisher.length()==0){
+            System.out.println("\nThe book has to have a publisher");
+            errors += 1;
+        }
+        if(edition.length()==0){
+            System.out.println("\nYou didn't insert which edition the book was");
+            errors += 1;
+        }
+        if(date.length()==0){
+            System.out.println("\nYou didn't insert a release date for the book");
+            errors += 1;
+        }
+
+        if (errors > 0){
+            System.out.println("\nYou had " + errors + " errors when adding the book, please try again");
+            return;
+        }
+
         Boolean spellcheck = true;
 
         while (spellcheck) {
+            System.out.println("Is the book part of a series? If yes type y, if no type n");
             String input = reader.nextLine();
             if (input.equalsIgnoreCase("y")) {
                 System.out.println("What is the series' title?");
                 String seriesTitle = reader.nextLine();
+
+                if(seriesTitle.length() == 0){
+                    System.out.println("The series title can't be empty, please try again");
+                }
+                else{
                 bookRegister.addBook(new Book(author, title, publisher, edition, date, seriesTitle));
                 spellcheck = false;
+                }
+
             } else if (input.equalsIgnoreCase("n")) {
                 bookRegister.addBook(new Book(author, title, publisher, edition, date));
                 spellcheck = false;
