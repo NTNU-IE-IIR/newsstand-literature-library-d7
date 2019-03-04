@@ -21,7 +21,8 @@ public class ApplicationUI {
             "1. List all books",
             "2. Add new book",
             "3. Find a book by title",
-            "4. Remove a book by title"
+            "4. Find book(s) by author",
+            "5. Remove a book by title"
     };
 
 
@@ -60,10 +61,14 @@ public class ApplicationUI {
                         break;
 
                     case 4:
-                        this.removeBookByTitle();
+                        this.findBookByAuthor();
                         break;
 
                     case 5:
+                        this.removeBookByTitle();
+                        break;
+
+                    case 6:
                         System.out.println("\nThank you for using Application v0.1. Bye!\n");
                         quit = true;
                         break;
@@ -132,10 +137,7 @@ public class ApplicationUI {
             System.out.println("\nThere are " + bookRegister.getNumberOfBooks() + " books in the registry");
             }
             for (Book book : bookArrayList) {
-                System.out.println("\n");
-                System.out.println("-----------------------");
-                System.out.println(bookInfo(book));
-                System.out.println("-----------------------");
+                formatPrint(book);
             }
         }
     }
@@ -190,7 +192,7 @@ public class ApplicationUI {
 
 
     /**
-     * Find and display a product based om name (title).
+     * Find and display a product based on name (title).
      * As with the addNewProduct()-method, you have to
      * ask the user for the string (name/title/publisher)
      * to search for, and then use this string as input-
@@ -214,6 +216,22 @@ public class ApplicationUI {
         System.out.println(bookInfo(book));
     }
 
+    private void findBookByAuthor(){
+        Scanner reader = new Scanner(System.in);
+        System.out.println("\nWho is the author of the book you want to find?");
+        String author = reader.nextLine();
+
+        ArrayList<Book> authorBookList = bookRegister.findBookByAuthor(author);
+        if (authorBookList.size()==0){
+            System.out.println("\nThere are no books by the selected author in the registry");
+        }
+        else{
+            for(Book b: authorBookList){
+                formatPrint(b);
+            }
+        }
+    }
+
 
     private void removeBookByTitle() {
         Scanner reader = new Scanner(System.in);
@@ -228,6 +246,13 @@ public class ApplicationUI {
         }
     }
 
+
+    private void formatPrint(Book b){
+        System.out.println("\n");
+        System.out.println("-----------------------");
+        System.out.println(bookInfo(b));
+        System.out.println("-----------------------");
+    }
 
     private String bookInfo(Book book) {
         String title = book.getTitle();

@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 
 /**
  * The type Main.
