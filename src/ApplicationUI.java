@@ -53,7 +53,7 @@ public class ApplicationUI {
                         break;
 
                     case 2:
-                        this.addNewBook();
+                        this.addBook();
                         break;
 
                     case 3:
@@ -131,10 +131,10 @@ public class ApplicationUI {
         if (bookArrayList.size() == 0) {
             System.out.println("\nThere are no books in the registry.");
         } else {
-            if (bookArrayList.size() == 1){
+            if (bookArrayList.size() == 1) {
                 System.out.println("\nThere is 1 book in the registry");
-            }else{
-            System.out.println("\nThere are " + bookRegister.getNumberOfBooks() + " books in the registry");
+            } else {
+                System.out.println("\nThere are " + bookRegister.getNumberOfBooks() + " books in the registry");
             }
             for (Book book : bookArrayList) {
                 formatPrint(book);
@@ -144,16 +144,10 @@ public class ApplicationUI {
 
 
     /**
-     * Add a new product/literature to the register.
-     * In this method you have to add code to ask the
-     * user for the necessary information you need to
-     * create an instance of the product, which you
-     * then send as a parameter to the addNewspaper()-
-     * method of the register.
-     * Remember to also handle invalid input from the
-     * user!!
+     * Lets the user add a book to the registry through
+     * input in the terminal
      */
-    private void addNewBook() {
+    private void addBook() {
         System.out.println("\nWhat is the name of the author?");
         Scanner reader = new Scanner(System.in);
         String author = reader.nextLine();
@@ -167,34 +161,33 @@ public class ApplicationUI {
         System.out.println("Which edition of the book is it?");
         String edition = reader.nextLine();
 
-
         System.out.println("What date was the book published?");
         String date = reader.nextLine();
 
         int errors = 0;
 
-        if(author.length()==0){
+        if (author.length() == 0) {
             System.out.println("\nThe book has to have an author");
             errors += 1;
         }
-        if(title.length()==0){
+        if (title.length() == 0) {
             System.out.println("\nThe book has to have a title");
             errors += 1;
         }
-        if(publisher.length()==0){
+        if (publisher.length() == 0) {
             System.out.println("\nThe book has to have a publisher");
             errors += 1;
         }
-        if(edition.length()==0){
+        if (edition.length() == 0) {
             System.out.println("\nYou didn't insert which edition the book was");
             errors += 1;
         }
-        if(date.length()==0){
+        if (date.length() == 0) {
             System.out.println("\nYou didn't insert a release date for the book");
             errors += 1;
         }
 
-        if (errors > 0){
+        if (errors > 0) {
             System.out.println("\nYou had " + errors + " errors when adding the book, please try again");
             return;
         }
@@ -208,12 +201,11 @@ public class ApplicationUI {
                 System.out.println("What is the series' title?");
                 String seriesTitle = reader.nextLine();
 
-                if(seriesTitle.length() == 0){
+                if (seriesTitle.length() == 0) {
                     System.out.println("The series title can't be empty, please try again");
-                }
-                else{
-                bookRegister.addBook(new Book(author, title, publisher, edition, date, seriesTitle));
-                spellcheck = false;
+                } else {
+                    bookRegister.addBook(new Book(author, title, publisher, edition, date, seriesTitle));
+                    spellcheck = false;
                 }
 
             } else if (input.equalsIgnoreCase("n")) {
@@ -226,19 +218,15 @@ public class ApplicationUI {
     }
 
 
-    /**
-     * Find and display a product based on name (title).
-     * As with the addNewProduct()-method, you have to
-     * ask the user for the string (name/title/publisher)
-     * to search for, and then use this string as input-
-     * parameter to the method in the register-object.
-     * Then, upon return from the register, you need
-     * to print the details of the found item.
-     */
     private void findBookByTitle() {
         Scanner reader = new Scanner(System.in);
         System.out.println("\nWhat is the title of the book you want to find?");
         String title = reader.nextLine();
+
+        if (title.length() == 0) {
+            System.out.println("\n You have to enter a title, please try again");
+            return;
+        }
 
         Book book = bookRegister.findBookByTitle(title);
 
@@ -247,21 +235,24 @@ public class ApplicationUI {
             return;
         }
 
-        System.out.println("\n");
-        System.out.println(bookInfo(book));
+        formatPrint(book);
     }
 
-    private void findBookByAuthor(){
+    private void findBookByAuthor() {
         Scanner reader = new Scanner(System.in);
         System.out.println("\nWho is the author of the book you want to find?");
         String author = reader.nextLine();
 
-        ArrayList<Book> authorBookList = bookRegister.findBookByAuthor(author);
-        if (authorBookList.size()==0){
-            System.out.println("\nThere are no books by the selected author in the registry");
+        if (author.length() == 0) {
+            System.out.println("\n You have to enter an author, please try again");
+            return;
         }
-        else{
-            for(Book b: authorBookList){
+
+        ArrayList<Book> authorBookList = bookRegister.findBookByAuthor(author);
+        if (authorBookList.size() == 0) {
+            System.out.println("\nThere are no books by the selected author in the registry");
+        } else {
+            for (Book b : authorBookList) {
                 formatPrint(b);
             }
         }
@@ -273,6 +264,11 @@ public class ApplicationUI {
         System.out.println("\nWhat is the title of the book you want to remove?");
         String title = reader.nextLine();
 
+        if (title.length() == 0) {
+            System.out.println("\n You have to enter a title, please try again");
+            return;
+        }
+
         Book book = bookRegister.removeBookByTitle(title);
         if (book == null) {
             System.out.println("\nThe book is not in the register");
@@ -282,7 +278,7 @@ public class ApplicationUI {
     }
 
 
-    private void formatPrint(Book b){
+    private void formatPrint(Book b) {
         System.out.println("\n");
         System.out.println("-----------------------");
         System.out.println(bookInfo(b));
@@ -298,9 +294,18 @@ public class ApplicationUI {
 
         if (book.isSeries()) {
             String seriesTitle = book.getSeriesTitle();
-            return "Title: " + title + "\nSeries title: " + seriesTitle + "\nAuthor: " + author + "\nDate: " + date + "\nPublisher: " + publisher + "\nEdition: " + edition;
+            return "Title: " + title
+                    + "\nSeries title: " + seriesTitle
+                    + "\nAuthor: " + author
+                    + "\nDate: " + date
+                    + "\nPublisher: " + publisher
+                    + "\nEdition: " + edition;
         } else {
-            return "Title: " + title + "\nAuthor: " + author + "\nDate: " + date + "\nPublisher: " + publisher + "\nEdition: " + edition;
+            return "Title: " + title
+                    + "\nAuthor: " + author
+                    + "\nDate: " + date
+                    + "\nPublisher: " + publisher
+                    + "\nEdition: " + edition;
         }
     }
 }

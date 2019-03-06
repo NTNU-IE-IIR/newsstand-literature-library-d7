@@ -129,13 +129,11 @@ public class Registry {
      */
     public ArrayList<Book> findBookByAuthor(String author) {
         ArrayList<Book> authorBookList = new ArrayList<>();
+
         for (Book b : bookList) {
             if (b.getAuthor().equalsIgnoreCase(author)) {
                 authorBookList.add(b);
             }
-        }
-        if(authorBookList.size() == 0){
-            throw new UgyldigListeIndeks(0);
         }
         return authorBookList;
     }
