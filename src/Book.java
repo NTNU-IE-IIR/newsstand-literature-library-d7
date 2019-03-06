@@ -109,15 +109,15 @@ public class Book {
      * Convert to series.
      *
      * @param seriesTitle the series title
-     */
-    public void convertToSeries(String seriesTitle) {
+
+    private void convertToSeries(String seriesTitle) {
         if (!isSeries) {
             isSeries = true;
             this.seriesTitle = seriesTitle;
         } else {
             System.out.println("The book is already a series");
         }
-    }
+    }**/
 
     /**
      * Is series boolean.
