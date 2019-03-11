@@ -8,7 +8,7 @@ public class Registry {
     /**
      * The fields for this class
      */
-    private ArrayList<Book> bookList;
+    private ArrayList<Literature> bookList;
 
     /**
      * Instantiates a new Registry.
@@ -60,7 +60,7 @@ public class Registry {
      *
      * @return the book list
      */
-    public ArrayList<Book> getBookList() {
+    public ArrayList<Literature> getBookList() {
         return bookList;
     }
 
@@ -69,7 +69,7 @@ public class Registry {
      *
      * @param index The number in the array where the book is stored.
      */
-    public Book searchBookByIndex(int index) {
+    public Literature searchBookByIndex(int index) {
         return bookList.get(index);
     }
 
@@ -91,10 +91,10 @@ public class Registry {
      * @param title the title of the book you want to find.
      * @return the book
      */
-    public Book findBookByTitle(String title) {
-        Iterator<Book> it = this.bookList.iterator();
+    public Literature findBookByTitle(String title) {
+        Iterator<Literature> it = this.bookList.iterator();
         while (it.hasNext()) {
-            Book b = it.next();
+            Literature b = it.next();
             if (b.getTitle().equals(title)) {
                 return b;
             }
@@ -108,11 +108,11 @@ public class Registry {
      * @param title the title of the book you want to remove.
      * @return the book
      */
-    public Book removeBookByTitle(String title) {
-        Iterator<Book> it = this.bookList.iterator();
+    public Literature removeBookByTitle(String title) {
+        Iterator<Literature> it = this.bookList.iterator();
 
         while (it.hasNext()) {
-            Book b = it.next();
+            Literature b = it.next();
             if (b.getTitle().equalsIgnoreCase(title)) {
                 bookList.remove(b);
                 return b;
@@ -130,9 +130,12 @@ public class Registry {
     public ArrayList<Book> findBookByAuthor(String author) {
         ArrayList<Book> authorBookList = new ArrayList<>();
 
-        for (Book b : bookList) {
-            if (b.getAuthor().equalsIgnoreCase(author)) {
-                authorBookList.add(b);
+        for (Literature b : bookList) {
+            if (b instanceof Book) {
+                Book book = (Book) b;
+                if (book.getAuthor().equalsIgnoreCase(author)) {
+                    authorBookList.add(book);
+                }
             }
         }
         return authorBookList;
@@ -144,13 +147,29 @@ public class Registry {
      * @param publisher The publisher of the book.
      * @return an ArrayList of all the books containing the author.
      */
-    public ArrayList<Book> findBookByPublisher(String publisher) {
-        ArrayList<Book> publisherBookList = new ArrayList<>();
-        for (Book b : bookList) {
+    public ArrayList<Literature> findLiteratureByPublisher(String publisher) {
+        ArrayList<Literature> publisherBookList = new ArrayList<>();
+        for (Literature b : bookList) {
             if (b.getPublisher().equalsIgnoreCase(publisher)) {
                 publisherBookList.add(b);
             }
         }
         return publisherBookList;
+    }
+    
+    public Book convertToSeries(String title, String seriesTitle) {
+        Literature book = findBookByTitle(title);
+        /*if (book == null || book instanceof BookSeries) {
+            return null;
+        }*/
+
+        if (book instanceof Book) {
+            Book b = (Book) book;
+            removeBookByTitle(title);
+            b = b.convertToSeries(seriesTitle);
+            addBook(b);
+            return b;
+        }
+        return null;
     }
 }

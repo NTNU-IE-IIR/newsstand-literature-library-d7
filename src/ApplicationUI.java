@@ -13,7 +13,6 @@ import java.util.Scanner;
  */
 public class ApplicationUI {
 
-
     // The menu tha will be displayed. Please edit/alter the menu
     // to fit your application (i.e. replace "product" with "literature"
     // etc.
@@ -22,7 +21,8 @@ public class ApplicationUI {
             "2. Add new book",
             "3. Find a book by title",
             "4. Find book(s) by author",
-            "5. Remove a book by title"
+            "5. Remove a book by title",
+            "6. Convert a book to a bookseries"
     };
 
 
@@ -69,6 +69,10 @@ public class ApplicationUI {
                         break;
 
                     case 6:
+                        this.convertToSeries();
+                        break;
+
+                    case 7:
                         System.out.println("\nThank you for using Application v0.1. Bye!\n");
                         quit = true;
                         break;
@@ -126,7 +130,7 @@ public class ApplicationUI {
      * Lists all the products/literature in the register
      */
     private void listAllBooks() {
-        ArrayList<Book> bookArrayList = bookRegister.getBookList();
+        ArrayList<Literature> bookArrayList = bookRegister.getBookList();
 
         if (bookArrayList.size() == 0) {
             System.out.println("\nThere are no books in the registry.");
@@ -136,12 +140,29 @@ public class ApplicationUI {
             } else {
                 System.out.println("\nThere are " + bookRegister.getNumberOfBooks() + " books in the registry");
             }
-            for (Book book : bookArrayList) {
+            for (Literature book : bookArrayList) {
                 formatPrint(book);
             }
         }
     }
 
+
+
+    private void addComicBook(){
+        Scanner reader = new Scanner(System.in);
+
+        System.out.println("\nWhat is the title of the comic you want tot add?");
+        String title = reader.nextLine();
+
+        System.out.println("\nWho published the comic?");
+        String publisher = reader.nextLine();
+
+        System.out.println("\nWhat is the serialnumber of the comic?");
+        int serialNumber = reader.nextInt();
+
+        System.out.println("\nWhat date was the comic published?");
+        String publishDate = reader.nextLine();
+    }
 
     /**
      * Lets the user add a book to the registry through
@@ -204,7 +225,7 @@ public class ApplicationUI {
                 if (seriesTitle.length() == 0) {
                     System.out.println("The series title can't be empty, please try again");
                 } else {
-                    bookRegister.addBook(new Book(author, title, publisher, edition, date, seriesTitle));
+                    bookRegister.addBook(new BookSeries(author, title, publisher, edition, date, seriesTitle));
                     spellcheck = false;
                 }
 
@@ -277,15 +298,42 @@ public class ApplicationUI {
         }
     }
 
+    private void convertToSeries(){
+        Scanner reader = new Scanner(System.in);
+        System.out.println("\nWhat is the title of the book you want to convert?");
+        String title = reader.nextLine();
 
-    private void formatPrint(Book b) {
+        if (title.length()==0){
+            System.out.println("\n You have to enter a title, please try again");
+            return;
+        }
+
+        System.out.println("\nWhat is the seriestitle you want to use?");
+        String seriesTitle = reader.nextLine();
+
+        if (seriesTitle.length()==0){
+            System.out.println("\nYou have to enter a seriestitle, please try again");
+            return;
+        }
+
+        Book book = bookRegister.convertToSeries(title, seriesTitle);
+        if (book == null){
+            System.out.println("\nThere were no books in the registry with that title or the book is already a series, please try again");
+        }
+        else{
+            System.out.println("\n" + title + " was converted to a bookseries with seriestitle " + seriesTitle);
+        }
+    }
+
+
+    private void formatPrint(Literature b) {
         System.out.println("\n");
         System.out.println("-----------------------");
         System.out.println(bookInfo(b));
         System.out.println("-----------------------");
     }
 
-    private String bookInfo(Book book) {
+    private String bookInfo(Literature book) {
         String title = book.getTitle();
         String author = book.getAuthor();
         String date = book.getPublishDate();
