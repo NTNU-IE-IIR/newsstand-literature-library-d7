@@ -2,8 +2,8 @@ public class Newspaper extends Literature {
     private String genre;
     private int releasesPerYear;
 
-    public Newspaper(String title, String author, String genre, int releasesPerYear){
-        super(title, author);
+    public Newspaper(String title, String publisher, String genre, int releasesPerYear){
+        super(title, publisher);
         this.genre = genre;
         this.releasesPerYear = releasesPerYear;
     }

@@ -8,13 +8,13 @@ public class Registry {
     /**
      * The fields for this class
      */
-    private ArrayList<Literature> bookList;
+    private ArrayList<Literature> literatureList;
 
     /**
      * Instantiates a new Registry.
      */
     public Registry() {
-        this.bookList = new ArrayList<>();
+        this.literatureList = new ArrayList<>();
     }
 
     /**
@@ -41,8 +41,8 @@ public class Registry {
      *
      * @param book the book
      */
-    public void addBook(Book book) {
-        this.bookList.add(book);
+    public void addLiterature(Literature book) {
+        this.literatureList.add(book);
     }
 
     /**
@@ -50,8 +50,8 @@ public class Registry {
      *
      * @return The number of books in the collection.
      */
-    public int getNumberOfBooks() {
-        return bookList.size();
+    public int getNumberOfLiterature() {
+        return literatureList.size();
     }
 
 
@@ -60,8 +60,8 @@ public class Registry {
      *
      * @return the book list
      */
-    public ArrayList<Literature> getBookList() {
-        return bookList;
+    public ArrayList<Literature> getLiteratureList() {
+        return literatureList;
     }
 
     /**
@@ -69,8 +69,8 @@ public class Registry {
      *
      * @param index The number in the array where the book is stored.
      */
-    public Literature searchBookByIndex(int index) {
-        return bookList.get(index);
+    public Literature searchLiteratureByIndex(int index) {
+        return literatureList.get(index);
     }
 
     /**
@@ -78,9 +78,9 @@ public class Registry {
      *
      * @param index The number in the array where the book is stored.
      */
-    public void removeBookByIndex(int index) {
-        if (index < bookList.size()) {
-            bookList.remove(index);
+    public void removeLiteratureByIndex(int index) {
+        if (index < literatureList.size()) {
+            literatureList.remove(index);
         }
     }
 
@@ -91,8 +91,8 @@ public class Registry {
      * @param title the title of the book you want to find.
      * @return the book
      */
-    public Literature findBookByTitle(String title) {
-        Iterator<Literature> it = this.bookList.iterator();
+    public Literature findLiteratureByTitle(String title) {
+        Iterator<Literature> it = this.literatureList.iterator();
         while (it.hasNext()) {
             Literature b = it.next();
             if (b.getTitle().equals(title)) {
@@ -108,14 +108,14 @@ public class Registry {
      * @param title the title of the book you want to remove.
      * @return the book
      */
-    public Literature removeBookByTitle(String title) {
-        Iterator<Literature> it = this.bookList.iterator();
+    public Literature removeLiteratureByTitle(String title) {
+        Iterator<Literature> it = this.literatureList.iterator();
 
         while (it.hasNext()) {
-            Literature b = it.next();
-            if (b.getTitle().equalsIgnoreCase(title)) {
-                bookList.remove(b);
-                return b;
+            Literature l = it.next();
+            if (l.getTitle().equalsIgnoreCase(title)) {
+                literatureList.remove(l);
+                return l;
             }
         }
         return null;
@@ -130,7 +130,7 @@ public class Registry {
     public ArrayList<Book> findBookByAuthor(String author) {
         ArrayList<Book> authorBookList = new ArrayList<>();
 
-        for (Literature b : bookList) {
+        for (Literature b : literatureList) {
             if (b instanceof Book) {
                 Book book = (Book) b;
                 if (book.getAuthor().equalsIgnoreCase(author)) {
@@ -149,7 +149,7 @@ public class Registry {
      */
     public ArrayList<Literature> findLiteratureByPublisher(String publisher) {
         ArrayList<Literature> publisherBookList = new ArrayList<>();
-        for (Literature b : bookList) {
+        for (Literature b : literatureList) {
             if (b.getPublisher().equalsIgnoreCase(publisher)) {
                 publisherBookList.add(b);
             }
@@ -158,16 +158,16 @@ public class Registry {
     }
     
     public Book convertToSeries(String title, String seriesTitle) {
-        Literature book = findBookByTitle(title);
+        Literature book = findLiteratureByTitle(title);
         /*if (book == null || book instanceof BookSeries) {
             return null;
         }*/
 
         if (book instanceof Book) {
             Book b = (Book) book;
-            removeBookByTitle(title);
+            removeLiteratureByTitle(title);
             b = b.convertToSeries(seriesTitle);
-            addBook(b);
+            addLiterature(b);
             return b;
         }
         return null;
