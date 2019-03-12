@@ -1,16 +1,20 @@
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  * The type Main.
  */
-public class main {
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
-    public static void main(String[] args) {
+public class main extends Application {
 
-        ApplicationUI appUI = new ApplicationUI();
-        appUI.start();
+    @Override
+    public void start(Stage primaryStage){
+        GUIApp gui = new GUIApp(primaryStage);
+        AppController controller = new AppController(primaryStage, gui);
+
+        Scene scene = new Scene(gui.getRoot());
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Kiosk");
+        primaryStage.show();
     }
 }
