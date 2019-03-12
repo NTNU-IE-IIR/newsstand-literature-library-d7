@@ -2,7 +2,7 @@
  * This class can store information about different books that gets
  * added to the class.
  */
-public class Book extends Literature{
+public class Book extends Literature {
     /**
      * The fields for the class
      */
@@ -14,6 +14,7 @@ public class Book extends Literature{
 
     /**
      * The constructor of the class.
+     *
      * @param author      the author
      * @param title       the title
      * @param publisher   the publisher
@@ -102,7 +103,7 @@ public class Book extends Literature{
      *
      * @return the boolean
      */
-    public boolean isSeries(){
+    public boolean isSeries() {
         return isSeries;
     }
 }

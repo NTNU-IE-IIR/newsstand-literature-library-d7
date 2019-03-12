@@ -2,10 +2,10 @@ import java.util.Scanner;
 
 public class BookView {
 
-    public BookView(){
+    public BookView() {
     }
 
-    public static void viewBook(Book book){
+    public static void viewBook(Book book) {
         String title = book.getTitle();
         String author = book.getAuthor();
         String date = book.getPublishDate();
@@ -15,17 +15,17 @@ public class BookView {
         printInfo(title, author, date, publisher, edition);
     }
 
-    private static void printInfo(String title, String author, String date, String publisher, String edition){
+    private static void printInfo(String title, String author, String date, String publisher, String edition) {
         System.out.println("-------------------------------------");
         System.out.println("Title: " + title
-                        + "\nAuthor: " + author
-                        + "\nDate: " + date
-                        + "\nPublisher: " + publisher
-                        + "\nEdition: " + edition);
+                + "\nAuthor: " + author
+                + "\nDate: " + date
+                + "\nPublisher: " + publisher
+                + "\nEdition: " + edition);
         System.out.println("-------------------------------------");
     }
 
-    public static Literature addBook(){
+    public static Literature addBook() {
         System.out.println("\nWhat is the name of the author?");
         Scanner reader = new Scanner(System.in);
         String author = reader.nextLine();
@@ -70,5 +70,30 @@ public class BookView {
             return null;
         }
         return new Book(author, title, publisher, edition, date);
+    }
+
+    public static String[] convertToSeries(){
+        String[] array ={"",""};
+        Scanner reader = new Scanner(System.in);
+        System.out.println("\nWhat is the title of the book you want to convert?");
+        String title = reader.nextLine();
+
+        if (title.length() == 0) {
+            System.out.println("\nYou have to enter a title, please try again");
+            return null;
+        } else{
+            array[0] = title;
+        }
+
+        System.out.println("\nWhat is the seriestitle you want to use?");
+        String seriesTitle = reader.nextLine();
+
+        if (seriesTitle.length() == 0) {
+            System.out.println("\nYou have to enter a seriestitle, please try again");
+            return null;
+        }else{
+            array[1] = seriesTitle;
+        }
+        return array;
     }
 }

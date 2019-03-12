@@ -213,15 +213,15 @@ public class ApplicationUI {
             String input = reader.nextLine();
             if (input.equalsIgnoreCase("y")) {
                 Literature literature = BookSeriesView.addBookSeries();
-                if(literature != null){
-                literatureRegister.addLiterature(literature);
-                spellcheck = false;
+                if (literature != null) {
+                    literatureRegister.addLiterature(literature);
+                    spellcheck = false;
                 }
             } else if (input.equalsIgnoreCase("n")) {
                 Literature literature = BookView.addBook();
-                if(literature != null){
-                literatureRegister.addLiterature(literature);
-                spellcheck = false;
+                if (literature != null) {
+                    literatureRegister.addLiterature(literature);
+                    spellcheck = false;
                 }
             } else {
                 System.out.println("\nPlease input either y for yes or n for no");
@@ -266,9 +266,9 @@ public class ApplicationUI {
         } else {
             for (Book b : authorBookList) {
                 checkLiterature(b);
-                }
             }
         }
+    }
 
 
     private void removeLiteratureByTitle() {
@@ -290,28 +290,16 @@ public class ApplicationUI {
     }
 
     private void convertToSeries() {
-        Scanner reader = new Scanner(System.in);
-        System.out.println("\nWhat is the title of the book you want to convert?");
-        String title = reader.nextLine();
+        String[] array = BookView.convertToSeries();
+        Book book = null;
 
-        if (title.length() == 0) {
-            System.out.println("\nYou have to enter a title, please try again");
-            return;
+        if (array != null) {
+            book = literatureRegister.convertToSeries(array[0], array[1]);
         }
-
-        System.out.println("\nWhat is the seriestitle you want to use?");
-        String seriesTitle = reader.nextLine();
-
-        if (seriesTitle.length() == 0) {
-            System.out.println("\nYou have to enter a seriestitle, please try again");
-            return;
-        }
-
-        Book book = literatureRegister.convertToSeries(title, seriesTitle);
         if (book == null) {
             System.out.println("\nThere were no books in the registry with that title or the book is already a series, please try again");
         } else {
-            System.out.println("\n" + title + " was converted to a bookseries with seriestitle " + seriesTitle);
+            System.out.println("\n" + array[0] + " was converted to a bookseries with seriestitle " + array[1]);
         }
     }
 }

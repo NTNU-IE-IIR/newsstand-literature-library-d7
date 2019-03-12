@@ -156,12 +156,12 @@ public class Registry {
         }
         return publisherBookList;
     }
-    
+
     public Book convertToSeries(String title, String seriesTitle) {
         Literature book = findLiteratureByTitle(title);
-        /*if (book == null || book instanceof BookSeries) {
+        if (book == null || book instanceof BookSeries) {
             return null;
-        }*/
+        }
 
         if (book instanceof Book) {
             Book b = (Book) book;
