@@ -146,8 +146,8 @@ public class ApplicationUI {
         }
     }
 
-    private void checkLiterature(Literature literature) {
-        if (literature instanceof BookSeries) {
+   private void checkLiterature(Literature literature) {
+       /* if (literature instanceof BookSeries) {
             BookSeries b = (BookSeries) literature;
             BookSeriesView.viewBookSeries(b);
         } else if (literature instanceof Book) {
@@ -159,7 +159,7 @@ public class ApplicationUI {
         } else if (literature instanceof ComicBook) {
             ComicBook c = (ComicBook) literature;
             ComicBookView.viewComicBook(c);
-        }
+        }*/
     }
 
     private void addLiterature() {

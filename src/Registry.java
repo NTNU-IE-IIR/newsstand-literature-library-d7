@@ -129,7 +129,6 @@ public class Registry {
      */
     public ArrayList<Book> findBookByAuthor(String author) {
         ArrayList<Book> authorBookList = new ArrayList<>();
-
         for (Literature b : literatureList) {
             if (b instanceof Book) {
                 Book book = (Book) b;
@@ -159,9 +158,9 @@ public class Registry {
     
     public Book convertToSeries(String title, String seriesTitle) {
         Literature book = findLiteratureByTitle(title);
-        /*if (book == null || book instanceof BookSeries) {
+        if (book == null || book instanceof BookSeries) {
             return null;
-        }*/
+        }
 
         if (book instanceof Book) {
             Book b = (Book) book;

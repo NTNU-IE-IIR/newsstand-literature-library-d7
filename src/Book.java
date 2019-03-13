@@ -2,18 +2,17 @@
  * This class can store information about different books that gets
  * added to the class.
  */
-public class Book extends Literature{
+public class Book extends Literature {
     /**
      * The fields for the class
      */
     protected String author;
     protected String edition;
     protected String publishDate;
-    protected String seriesTitle;
-    protected boolean isSeries;
 
     /**
      * The constructor of the class.
+     *
      * @param author      the author
      * @param title       the title
      * @param publisher   the publisher
@@ -23,7 +22,6 @@ public class Book extends Literature{
     public Book(String author, String title, String publisher, String edition, String publishDate) {
         super(title, publisher);
         this.author = author;
-        this.title = title;
         this.edition = edition;
         this.publishDate = publishDate;
     }
@@ -73,15 +71,6 @@ public class Book extends Literature{
         return publishDate;
     }
 
-    /**
-     * Gets series title.
-     *
-     * @return the series title.
-     */
-    public String getSeriesTitle() {
-        return seriesTitle;
-    }
-
 
     /**
      * Convert to series.
@@ -95,14 +84,5 @@ public class Book extends Literature{
             book = new BookSeries(author, title, publisher, edition, publishDate, seriesTitle);
         }
         return book;
-    }
-
-    /**
-     * Is series boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isSeries(){
-        return isSeries;
     }
 }

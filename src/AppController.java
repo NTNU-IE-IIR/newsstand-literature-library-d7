@@ -1,13 +1,15 @@
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -45,6 +47,53 @@ public class AppController {
 
         FindByTitleEvent findByTitleEvent = new FindByTitleEvent();
         gui.getFindByTitleButton().setOnAction(findByTitleEvent);
+
+        FindBooksByAuthorEvent findBooksByAuthorEvent = new FindBooksByAuthorEvent();
+        gui.getFindByAuthorButton().setOnAction(findBooksByAuthorEvent);
+
+        RemoveLiteratureByTitleEvent removeLiteratureByTitleEvent = new RemoveLiteratureByTitleEvent();
+        gui.getRemoveByTitleButton().setOnAction(removeLiteratureByTitleEvent);
+
+        ConvertToSeriesEvent convertToSeriesEvent = new ConvertToSeriesEvent();
+        gui.getConvertBookButton().setOnAction(convertToSeriesEvent);
+    }
+
+    private String checkLiterature(Literature literature) {
+        if (literature != null) {
+            if (literature instanceof BookSeries) {
+                BookSeries b = (BookSeries) literature;
+                return("\nType: Bookseries"
+                        + "\nTitle: " + b.getTitle()
+                        + "\nSeriestitle: " + b.getSeriesTitle()
+                        + "\nAuthor: " + b.getAuthor()
+                        + "\nPublisher: " + b.getPublisher()
+                        + "\nEdition: " + b.getEdition()
+                        + "\nDate published: " + b.getPublishDate());
+            } else if (literature instanceof Book) {
+                Book b = (Book) literature;
+                return ("\nType: Book"
+                        + "\nTitle: " + b.getTitle()
+                        + "\nAuthor: " + b.getAuthor()
+                        + "\nPublisher: " + b.getPublisher()
+                        + "\nEdition: " + b.getEdition()
+                        + "\nDate published: " + b.getPublishDate());
+            } else if (literature instanceof Newspaper) {
+                Newspaper n = (Newspaper) literature;
+                return ("\nType: Newspaper"
+                        + "\nTitle: " + n.getTitle()
+                        + "\nPublisher: " + n.getPublisher()
+                        + "\nGenre: " + n.getGenre()
+                        + "\nReleases per year: " + n.getReleasesPerYear());
+            } else if (literature instanceof ComicBook) {
+                ComicBook c = (ComicBook) literature;
+                return("\nType: Comic Book"
+                        + "\nTitle: " + c.getTitle()
+                        + "\nPublisher: " + c.getPublishDate()
+                        + "\nSerialnumber: " + c.getSerialNumber()
+                        + "\nDate published: " + c.getPublishDate());
+            }
+        }
+        return "";
     }
 
 
@@ -71,42 +120,180 @@ public class AppController {
     }
 
 
-    class FindByTitleEvent implements EventHandler<ActionEvent> {
-        Literature literature = null;
+    class RemoveLiteratureByTitleEvent implements EventHandler<ActionEvent>{
+        Literature literature;
 
         @Override
         public void handle(ActionEvent event) {
             gui.getGridPane().getChildren().clear();
+            gui.getQuestion().setText("Enter the title of the literature you want to remove");
+
             Text title = new Text("Title");
             TextField titleField = new TextField();
+
+            Label label = new Label();
+
+            Button remove = new Button("Remove");
+            GridPane.setHalignment(remove, HPos.CENTER);
+
+            gui.getGridPane().add(title, 0, 0);
+            gui.getGridPane().add(titleField, 0, 1);
+            gui.getGridPane().add(remove, 0, 3);
+            gui.getGridPane().add(label, 0, 4);
+
+            remove.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    label.setText("");
+                    if(!titleField.getText().isEmpty()){
+                        literature = literatureRegistry.removeLiteratureByTitle(titleField.getText());
+                        titleField.clear();
+                        if(literature != null){
+                            label.setText("You have removed " + literature.getTitle() + " from the registry");
+                        } else{
+                            label.setText("This title is not valid");
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+
+    class ConvertToSeriesEvent implements EventHandler<ActionEvent>{
+        @Override
+        public void handle(ActionEvent event) {
+            gui.getGridPane().getChildren().clear();
+            gui.getQuestion().setText("Which book do you want to convert?");
+
+            Text title = new Text("Title");
+            TextField titleField = new TextField();
+            Text seriesTitle = new Text("Seriestitle");
+            TextField seriesTitleField = new TextField();
+            Button convert = new Button("Convert");
+            Label label = new Label();
+
+            GridPane.setHalignment(convert, HPos.CENTER);
+
+            gui.getGridPane().add(title, 0, 0);
+            gui.getGridPane().add(titleField, 0, 1);
+            gui.getGridPane().add(seriesTitle, 0, 2);
+            gui.getGridPane().add(seriesTitleField, 0, 3);
+            gui.getGridPane().add(convert, 0, 4);
+            gui.getGridPane().add(label, 0, 5);
+
+            convert.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    label.setText("");
+                    if(!titleField.getText().isEmpty() && !seriesTitleField.getText().isEmpty()){
+                        Book book = literatureRegistry.convertToSeries(titleField.getText(), seriesTitleField.getText());
+                        if(book != null){
+                            label.setText("You converted " + book.getTitle() + " to a bookseries with seriestitle " + seriesTitleField.getText());
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+
+    class FindBooksByAuthorEvent implements EventHandler<ActionEvent> {
+        private ArrayList<Book> bookList;
+        private Text author;
+        private TextField authorField;
+        private Button find;
+        private VBox bookBox;
+
+        @Override
+        public void handle(ActionEvent event) {
+            gui.getGridPane().getChildren().clear();
+            gui.getQuestion().setText("Enter the author of the book you want to find");
+
+            author = new Text("Author");
+            authorField = new TextField();
+
+            gui.getGridPane().add(author, 0, 0);
+            gui.getGridPane().add(authorField, 0, 1);
+
+            find = new Button("Find books");
+            gui.getGridPane().add(find, 0, 2);
+            GridPane.setHalignment(find, HPos.CENTER);
+
+            bookBox = new VBox();
+            gui.getGridPane().add(bookBox, 0, 3);
+
+
+            find.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    bookBox.getChildren().clear();
+                    if (!authorField.getText().isEmpty()) {
+                        bookList = literatureRegistry.findBookByAuthor(authorField.getText());
+                        authorField.clear();
+                        if (!bookList.isEmpty()) {
+                            for (Book b : bookList) {
+                                if (b instanceof BookSeries) {
+                                    BookSeries book = (BookSeries) b;
+                                    String info = "\nType: Bookseries"
+                                            + "\nTitle: " + book.getTitle()
+                                            + "\nSeriesitle: " + book.getSeriesTitle()
+                                            + "\nAuthor: " + book.getAuthor()
+                                            + "\nPublisher: " + book.getPublisher()
+                                            + "\nEdition: " + book.getEdition()
+                                            + "\nDate published: " + book.getPublishDate();
+                                    bookBox.getChildren().add(new Text(info));
+                                } else {
+                                    String info = "\nType: Book"
+                                            + "\nTitle: " + b.getTitle()
+                                            + "\nAuthor: " + b.getAuthor()
+                                            + "\nPublisher: " + b.getPublisher()
+                                            + "\nEdition: " + b.getEdition()
+                                            + "\nDate published: " + b.getPublishDate();
+                                    bookBox.getChildren().add(new Text(info));
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    class FindByTitleEvent implements EventHandler<ActionEvent> {
+        Literature literature = null;
+        Label label;
+
+        @Override
+        public void handle(ActionEvent event) {
+            gui.getGridPane().getChildren().clear();
+            gui.getQuestion().setText("Enter the title of the literature you want to find");
+
+            Text title = new Text("Title");
+            TextField titleField = new TextField();
+
+            label = new Label();
 
             gui.getGridPane().add(title, 0, 0);
             gui.getGridPane().add(titleField, 0, 1);
 
-
-            Button find = new Button("Find");
+            Button find = new Button("Find literature");
             gui.getGridPane().add(find, 0, 2);
+            gui.getGridPane().add(label, 0, 3);
+            GridPane.setHalignment(find, HPos.CENTER);
 
             find.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
+                    label.setText("");
                     if (!titleField.getText().isEmpty()) {
                         literature = literatureRegistry.findLiteratureByTitle(titleField.getText());
-                    }
-                    titleField.clear();
-                    if (literature != null) {
-                        if (literature instanceof BookSeries) {
-                            BookSeries b = (BookSeries) literature;
-                            BookSeriesView.viewBookSeries(b);
-                        } else if (literature instanceof Book) {
-                            Book b = (Book) literature;
-                            gui.getGridPane().add(new Text(b.getTitle()), 0, 3);
-                        } else if (literature instanceof Newspaper) {
-                            Newspaper n = (Newspaper) literature;
-                            NewspaperView.viewNewspaper(n);
-                        } else if (literature instanceof ComicBook) {
-                            ComicBook c = (ComicBook) literature;
-                            ComicBookView.viewComicBook(c);
+                        titleField.clear();
+                        if(literature != null){
+                        label.setText(checkLiterature(literature));
+                        }
+                        else{
+                            label.setText("That title is not valid");
                         }
                     }
                 }
@@ -119,6 +306,7 @@ public class AppController {
     class AddLiteratureEvent implements EventHandler<ActionEvent> {
         @Override
         public void handle(ActionEvent event) {
+            gui.getQuestion().setText("What kind of literature do you want to add?");
             gui.getGridPane().getChildren().clear();
             gui.getGridPane().add(gui.getBookButton(), 0, 0);
             gui.getGridPane().add(gui.getBookSeriesButton(), 1, 0);
@@ -135,8 +323,8 @@ public class AppController {
             gui.getQuestion().setText("Here is all the literature in the list:");
             int i = 0;
             for (Literature l : literatureList) {
-                String title = l.getTitle();
-                gui.getGridPane().add(new Text(title), 0, i);
+                String info = checkLiterature(l);
+                gui.getGridPane().add(new Text(info), 0, i);
                 i++;
             }
         }
@@ -145,8 +333,6 @@ public class AppController {
 
     abstract class LiteratureButtonEvent implements EventHandler<ActionEvent> {
         protected Button submitButton;
-        protected Button returnButton;
-        protected HBox buttonBox;
         protected Label label;
         protected TextField field1;
         protected TextField field2;
@@ -157,6 +343,7 @@ public class AppController {
         public abstract void handle(ActionEvent event);
 
         public void setup(Text text1, Text text2, Text text3, Text text4) {
+            gui.getQuestion().setText("Enter info about the literature below");
             field1 = new TextField();
             field2 = new TextField();
             field3 = new TextField();
@@ -172,7 +359,7 @@ public class AppController {
             gui.getGridPane().add(field4, 0, 7);
 
             submitButton = new Button("Submit");
-            buttonBox = new HBox(submitButton);
+            GridPane.setHalignment(submitButton, HPos.CENTER);
             label = new Label();
         }
     }
@@ -187,7 +374,7 @@ public class AppController {
 
             gui.getGridPane().add(seriesTitle, 0, 10);
             gui.getGridPane().add(seriesTitleField, 0, 11);
-            gui.getGridPane().add(buttonBox, 0, 12);
+            gui.getGridPane().add(submitButton, 0, 12);
             gui.getGridPane().add(label, 0, 13);
 
             submitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -226,7 +413,7 @@ public class AppController {
         public void handle(ActionEvent event) {
             getInfo();
 
-            gui.getGridPane().add(buttonBox, 0, 10);
+            gui.getGridPane().add(submitButton, 0, 10);
             gui.getGridPane().add(label, 0, 11);
 
 
@@ -280,7 +467,7 @@ public class AppController {
 
             setup(title, publisher, serialNumber, publishDate);
 
-            gui.getGridPane().add(buttonBox, 0, 8);
+            gui.getGridPane().add(submitButton, 0, 8);
             gui.getGridPane().add(label, 0, 9);
 
             submitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -316,7 +503,7 @@ public class AppController {
 
             setup(title, publisher, genre, releases);
 
-            gui.getGridPane().add(buttonBox, 0, 8);
+            gui.getGridPane().add(submitButton, 0, 8);
             gui.getGridPane().add(label, 0, 9);
 
             submitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {

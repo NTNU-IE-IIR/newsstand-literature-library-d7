@@ -1,4 +1,8 @@
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
@@ -96,7 +100,6 @@ public class GUIApp {
     }
 
     private void setupGUI() {
-
         question = new Text("What do you want to do?");
 
         cancelButton = new Button("Cancel");
@@ -117,8 +120,9 @@ public class GUIApp {
         gridPane = new GridPane();
         gridPane.setPrefSize(1000, 800);
         gridPane.setAlignment(Pos.TOP_CENTER);
-        gridPane.setVgap(5);
-        gridPane.setHgap(5);
+        gridPane.setVgap(10);
+        gridPane.setHgap(20);
+        gridPane.setPadding(new Insets(20));
 
         gridPane.add(listLiteratureButton, 0, 1);
         gridPane.add(addLiteratureButton, 1, 1);
@@ -127,12 +131,21 @@ public class GUIApp {
         gridPane.add(removeByTitleButton, 1, 2);
         gridPane.add(convertBookButton, 2, 2);
 
+        GridPane.setHalignment(listLiteratureButton, HPos.CENTER);
+        GridPane.setHalignment(addLiteratureButton, HPos.CENTER);
+        GridPane.setHalignment(findByTitleButton, HPos.CENTER);
+        GridPane.setHalignment(findByAuthorButton, HPos.CENTER);
+        GridPane.setHalignment(removeByTitleButton, HPos.CENTER);
+        GridPane.setHalignment(convertBookButton, HPos.CENTER);
+
+        question.setFont(Font.font("Arial", FontWeight.BOLD, 15));
+
         root.setCenter(gridPane);
         root.setTop(question);
-        root.setAlignment(question, Pos.TOP_CENTER);
         root.setLeft(returnButton);
         root.setRight(cancelButton);
-        root.setAlignment(returnButton, Pos.BOTTOM_LEFT);
-        root.setAlignment(cancelButton, Pos.BOTTOM_RIGHT);
+        BorderPane.setAlignment(question, Pos.TOP_CENTER);
+        BorderPane.setAlignment(returnButton, Pos.BOTTOM_LEFT);
+        BorderPane.setAlignment(cancelButton, Pos.BOTTOM_RIGHT);
     }
 }
