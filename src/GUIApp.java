@@ -7,11 +7,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.GridPane;
 
 public class GUIApp {
-    private Stage stage;
     private BorderPane root;
 
-    private Button cancelButton;
     private GridPane gridPane;
+
+    private Button cancelButton;
+    private Button returnButton;
 
     private Button listLiteratureButton;
     private Button addLiteratureButton;
@@ -26,6 +27,10 @@ public class GUIApp {
     private Button bookSeriesButton;
 
     private Text question;
+
+    public Button getReturnButton() {
+        return returnButton;
+    }
 
     public Button getBookButton() {
         return bookButton;
@@ -84,8 +89,7 @@ public class GUIApp {
     }
 
 
-    public GUIApp(Stage stage) {
-        this.stage = stage;
+    public GUIApp() {
         root = new BorderPane();
 
         setupGUI();
@@ -96,20 +100,22 @@ public class GUIApp {
         question = new Text("What do you want to do?");
 
         cancelButton = new Button("Cancel");
+        returnButton = new Button("Return");
+
         listLiteratureButton = new Button("List all literature");
         addLiteratureButton = new Button("Add more literature");
         findByTitleButton = new Button("Find literature by title");
         findByAuthorButton = new Button("Find book by author");
         removeByTitleButton = new Button("Remove literature by title");
         convertBookButton = new Button("Convert book to bookseries");
+
         newspaperButton = new Button("Newspaper");
         comicButton = new Button("Comic Book");
         bookButton = new Button("Book");
         bookSeriesButton = new Button("Bookseries");
 
-
         gridPane = new GridPane();
-        gridPane.setPrefSize(500, 500);
+        gridPane.setPrefSize(1000, 800);
         gridPane.setAlignment(Pos.TOP_CENTER);
         gridPane.setVgap(5);
         gridPane.setHgap(5);
@@ -120,10 +126,13 @@ public class GUIApp {
         gridPane.add(findByAuthorButton, 0, 2);
         gridPane.add(removeByTitleButton, 1, 2);
         gridPane.add(convertBookButton, 2, 2);
-        gridPane.add(bookButton, 3, 0);
+
         root.setCenter(gridPane);
         root.setTop(question);
         root.setAlignment(question, Pos.TOP_CENTER);
-        root.setBottom(new HBox(cancelButton));
+        root.setLeft(returnButton);
+        root.setRight(cancelButton);
+        root.setAlignment(returnButton, Pos.BOTTOM_LEFT);
+        root.setAlignment(cancelButton, Pos.BOTTOM_RIGHT);
     }
 }

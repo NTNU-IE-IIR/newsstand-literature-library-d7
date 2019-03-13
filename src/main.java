@@ -9,8 +9,8 @@ public class main extends Application {
 
     @Override
     public void start(Stage primaryStage){
-        GUIApp gui = new GUIApp(primaryStage);
-        AppController controller = new AppController(primaryStage, gui);
+        GUIApp gui = new GUIApp();
+        new AppController(gui);
 
         Scene scene = new Scene(gui.getRoot());
         primaryStage.setScene(scene);
