@@ -6,8 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class AppController {
     private GUIApp gui;
     private Registry literatureRegistry;
+    private Label label;
 
     public AppController(GUIApp gui) {
         this.gui = gui;
@@ -108,6 +109,7 @@ public class AppController {
         @Override
         public void handle(ActionEvent event) {
             gui.getGridPane().getChildren().clear();
+            gui.getGridPane().getRowConstraints().clear();
             gui.getGridPane().add(gui.getListLiteratureButton(), 0, 1);
             gui.getGridPane().add(gui.getAddLiteratureButton(), 1, 1);
             gui.getGridPane().add(gui.getFindByTitleButton(), 2, 1);
@@ -131,7 +133,7 @@ public class AppController {
             Text title = new Text("Title");
             TextField titleField = new TextField();
 
-            Label label = new Label();
+            label = new Label();
 
             Button remove = new Button("Remove");
             GridPane.setHalignment(remove, HPos.CENTER);
@@ -151,8 +153,10 @@ public class AppController {
                         if (literature != null) {
                             label.setText("You have removed " + literature.getTitle() + " \nfrom the registry");
                         } else {
-                            label.setText("This title is not valid");
+                            label.setText("That title is not valid");
                         }
+                    } else {
+                        label.setText("You have to enter \ntext in the field");
                     }
                 }
             });
@@ -171,7 +175,7 @@ public class AppController {
             Text seriesTitle = new Text("Seriestitle");
             TextField seriesTitleField = new TextField();
             Button convert = new Button("Convert");
-            Label label = new Label();
+            label = new Label();
 
 
             GridPane.setHalignment(convert, HPos.CENTER);
@@ -189,11 +193,15 @@ public class AppController {
                 public void handle(ActionEvent event) {
                     label.setText("");
                     if (!titleField.getText().isEmpty() && !seriesTitleField.getText().isEmpty()) {
-                        Book book = literatureRegistry.convertToSeries(titleField.getText(), seriesTitleField.getText());
+                        BookSeries book = literatureRegistry.convertToSeries(titleField.getText(), seriesTitleField.getText());
+                        titleField.clear();
+                        seriesTitleField.clear();
                         if (book != null) {
-                            label.setText("You converted " + book.getTitle() + " to a bookseries \nwith seriestitle " + seriesTitleField.getText());
+                            label.setText("You converted " + book.getTitle() + " to a bookseries \nwith seriestitle " + book.getSeriesTitle());
+                        } else {
+                            label.setText("There were no books in \nthe registry with that title or \nthe book is already a series, \nplease try again");
                         }
-                    } else{
+                    } else {
                         label.setText("You have to enter \ntext in all the fields");
                     }
                 }
@@ -245,7 +253,7 @@ public class AppController {
                                             + "\nPublisher: " + book.getPublisher()
                                             + "\nEdition: " + book.getEdition()
                                             + "\nDate published: " + book.getPublishDate();
-                                    bookBox.getChildren().add(new Text(info));
+                                    bookBox.getChildren().add(new Label(info));
                                 } else {
                                     String info = "\nType: Book"
                                             + "\nTitle: " + b.getTitle()
@@ -253,10 +261,14 @@ public class AppController {
                                             + "\nPublisher: " + b.getPublisher()
                                             + "\nEdition: " + b.getEdition()
                                             + "\nDate published: " + b.getPublishDate();
-                                    bookBox.getChildren().add(new Text(info));
+                                    bookBox.getChildren().add(new Label(info));
                                 }
                             }
+                        } else {
+                            bookBox.getChildren().add(new Label("There are no books in \nthe registry with that title"));
                         }
+                    } else {
+                        bookBox.getChildren().add(new Label("You have to enter a \ntitle in the textfield"));
                     }
                 }
             });
@@ -265,7 +277,6 @@ public class AppController {
 
     class FindByTitleEvent implements EventHandler<ActionEvent> {
         Literature literature = null;
-        Label label;
 
         @Override
         public void handle(ActionEvent event) {
@@ -297,6 +308,8 @@ public class AppController {
                         } else {
                             label.setText("That title is not valid");
                         }
+                    } else {
+                        label.setText("You have to enter a \ntitle in the textfield");
                     }
                 }
             });
@@ -323,10 +336,15 @@ public class AppController {
             ArrayList<Literature> literatureList = literatureRegistry.getLiteratureList();
             gui.getQuestion().setText("Here is all the literature in the list:");
             int i = 0;
-            for (Literature l : literatureList) {
-                String info = checkLiterature(l);
-                gui.getGridPane().add(new Text(info), 0, i);
-                i++;
+            if (!literatureList.isEmpty()) {
+                for (Literature l : literatureList) {
+                    String info = checkLiterature(l);
+                    gui.getGridPane().add(new Label(info), 0, i);
+                    gui.getGridPane().getRowConstraints().add(new RowConstraints(150));
+                    i++;
+                }
+            } else {
+                gui.getGridPane().add(new Label("There are no literature in the registry :("), 0, 0);
             }
         }
     }
@@ -334,7 +352,6 @@ public class AppController {
 
     abstract class LiteratureButtonEvent implements EventHandler<ActionEvent> {
         protected Button submitButton;
-        protected Label label;
         protected TextField field1;
         protected TextField field2;
         protected TextField field3;
@@ -384,7 +401,7 @@ public class AppController {
                     if (!field1.getText().isEmpty() && !field2.getText().isEmpty() && !field3.getText().isEmpty()
                             && !field4.getText().isEmpty() && !dateField.getText().isEmpty() && !seriesTitleField.getText().isEmpty()) {
                         label.setText("You added a book titled " + field1.getText()
-                                + "\nwith a series title: "
+                                + "\nwith a series title: " + seriesTitleField.getText()
                                 + "\nthat is published by " + field2.getText()
                                 + "\nand authored by " + field3.getText());
                         literatureRegistry.addLiterature(new BookSeries(field3.getText(), field1.getText(), field2.getText(), field4.getText(), dateField.getText(), seriesTitleField.getText()));
@@ -481,7 +498,10 @@ public class AppController {
                             label.setText("You added a comic book titled " + field1.getText()
                                     + "\nthat is published by " + field2.getText());
                             literatureRegistry.addLiterature(new ComicBook(field1.getText(), field2.getText(), serialNumber, field4.getText()));
-
+                            field1.clear();
+                            field2.clear();
+                            field3.clear();
+                            field4.clear();
                         } catch (NumberFormatException nfe) {
                             label.setText("You have to enter a valid number \nfor the serial number");
                         }
@@ -517,6 +537,10 @@ public class AppController {
                             label.setText("You added a newspaper titled " + field1.getText()
                                     + "\nthat is published by " + field2.getText());
                             literatureRegistry.addLiterature(new Newspaper(field1.getText(), field2.getText(), field3.getText(), releases));
+                            field1.clear();
+                            field2.clear();
+                            field3.clear();
+                            field4.clear();
 
                         } catch (NumberFormatException nfe) {
                             label.setText("You have to enter a valid number \nfor releases per year");

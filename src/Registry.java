@@ -156,7 +156,7 @@ public class Registry {
         return publisherBookList;
     }
     
-    public Book convertToSeries(String title, String seriesTitle) {
+    public BookSeries convertToSeries(String title, String seriesTitle) {
         Literature book = findLiteratureByTitle(title);
         if (book == null || book instanceof BookSeries) {
             return null;
@@ -165,9 +165,9 @@ public class Registry {
         if (book instanceof Book) {
             Book b = (Book) book;
             removeLiteratureByTitle(title);
-            b = b.convertToSeries(seriesTitle);
-            addLiterature(b);
-            return b;
+            BookSeries bookSeries = b.convertToSeries(seriesTitle);
+            addLiterature(bookSeries);
+            return bookSeries;
         }
         return null;
     }

@@ -1,17 +1,21 @@
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.scene.control.Button;
 
 public class GUIApp {
     private BorderPane root;
 
     private GridPane gridPane;
+    private ScrollPane scrollPane;
+
+    private HBox hBox;
 
     private Button cancelButton;
     private Button returnButton;
@@ -29,6 +33,14 @@ public class GUIApp {
     private Button bookSeriesButton;
 
     private Text question;
+
+    public HBox gethBox(){
+        return hBox;
+    }
+
+    public ScrollPane getScrollPane() {
+        return scrollPane;
+    }
 
     public Button getReturnButton() {
         return returnButton;
@@ -116,7 +128,7 @@ public class GUIApp {
         bookSeriesButton = new Button("Bookseries");
 
         gridPane = new GridPane();
-        gridPane.setPrefSize(1000, 800);
+        gridPane.setPrefSize(600, 600);
         gridPane.setAlignment(Pos.TOP_CENTER);
         gridPane.setVgap(10);
         gridPane.setHgap(20);
@@ -139,14 +151,18 @@ public class GUIApp {
 
         question.setFont(Font.font("Arial", FontWeight.BOLD, 15));
 
+        scrollPane = new ScrollPane();
+        scrollPane.setContent(gridPane);
 
-        root.setCenter(gridPane);
+        hBox = new HBox(cancelButton, returnButton);
+
+
+        root.setCenter(scrollPane);
         root.setTop(question);
-        root.setLeft(returnButton);
-        root.setRight(cancelButton);
+
+        root.setBottom(hBox);
         BorderPane.setMargin(question, new Insets(20, 0, 0, 0));
         BorderPane.setAlignment(question, Pos.TOP_CENTER);
-        BorderPane.setAlignment(returnButton, Pos.BOTTOM_LEFT);
-        BorderPane.setAlignment(cancelButton, Pos.BOTTOM_RIGHT);
+        BorderPane.setAlignment(hBox, Pos.BOTTOM_LEFT);
     }
 }

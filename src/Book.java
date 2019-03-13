@@ -78,8 +78,8 @@ public class Book extends Literature {
      * @param seriesTitle the series title
      */
 
-    public Book convertToSeries(String seriesTitle) {
-        Book book = null;
+    public BookSeries convertToSeries(String seriesTitle) {
+        BookSeries book = null;
         if (!(this instanceof BookSeries)) {
             book = new BookSeries(author, title, publisher, edition, publishDate, seriesTitle);
         }

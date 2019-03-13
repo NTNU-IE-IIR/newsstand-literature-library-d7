@@ -307,11 +307,11 @@ public class ApplicationUI {
             return;
         }
 
-        Book book = literatureRegister.convertToSeries(title, seriesTitle);
+        BookSeries book = literatureRegister.convertToSeries(title, seriesTitle);
         if (book == null) {
             System.out.println("\nThere were no books in the registry with that title or the book is already a series, please try again");
         } else {
-            System.out.println("\n" + title + " was converted to a bookseries with seriestitle " + seriesTitle);
+            System.out.println("\n" + book.getTitle() + " was converted to a bookseries with seriestitle " + book.getSeriesTitle());
         }
     }
 }
