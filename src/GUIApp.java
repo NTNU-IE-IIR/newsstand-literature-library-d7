@@ -1,14 +1,12 @@
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.GridPane;
 
 public class GUIApp {
     private BorderPane root;
@@ -124,6 +122,7 @@ public class GUIApp {
         gridPane.setHgap(20);
         gridPane.setPadding(new Insets(20));
 
+
         gridPane.add(listLiteratureButton, 0, 1);
         gridPane.add(addLiteratureButton, 1, 1);
         gridPane.add(findByTitleButton, 2, 1);
@@ -140,10 +139,12 @@ public class GUIApp {
 
         question.setFont(Font.font("Arial", FontWeight.BOLD, 15));
 
+
         root.setCenter(gridPane);
         root.setTop(question);
         root.setLeft(returnButton);
         root.setRight(cancelButton);
+        BorderPane.setMargin(question, new Insets(20, 0, 0, 0));
         BorderPane.setAlignment(question, Pos.TOP_CENTER);
         BorderPane.setAlignment(returnButton, Pos.BOTTOM_LEFT);
         BorderPane.setAlignment(cancelButton, Pos.BOTTOM_RIGHT);

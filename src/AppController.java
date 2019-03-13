@@ -6,8 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -62,7 +62,7 @@ public class AppController {
         if (literature != null) {
             if (literature instanceof BookSeries) {
                 BookSeries b = (BookSeries) literature;
-                return("\nType: Bookseries"
+                return ("\nType: Bookseries"
                         + "\nTitle: " + b.getTitle()
                         + "\nSeriestitle: " + b.getSeriesTitle()
                         + "\nAuthor: " + b.getAuthor()
@@ -86,7 +86,7 @@ public class AppController {
                         + "\nReleases per year: " + n.getReleasesPerYear());
             } else if (literature instanceof ComicBook) {
                 ComicBook c = (ComicBook) literature;
-                return("\nType: Comic Book"
+                return ("\nType: Comic Book"
                         + "\nTitle: " + c.getTitle()
                         + "\nPublisher: " + c.getPublishDate()
                         + "\nSerialnumber: " + c.getSerialNumber()
@@ -120,7 +120,7 @@ public class AppController {
     }
 
 
-    class RemoveLiteratureByTitleEvent implements EventHandler<ActionEvent>{
+    class RemoveLiteratureByTitleEvent implements EventHandler<ActionEvent> {
         Literature literature;
 
         @Override
@@ -145,12 +145,12 @@ public class AppController {
                 @Override
                 public void handle(ActionEvent event) {
                     label.setText("");
-                    if(!titleField.getText().isEmpty()){
+                    if (!titleField.getText().isEmpty()) {
                         literature = literatureRegistry.removeLiteratureByTitle(titleField.getText());
                         titleField.clear();
-                        if(literature != null){
-                            label.setText("You have removed " + literature.getTitle() + " from the registry");
-                        } else{
+                        if (literature != null) {
+                            label.setText("You have removed " + literature.getTitle() + " \nfrom the registry");
+                        } else {
                             label.setText("This title is not valid");
                         }
                     }
@@ -160,7 +160,7 @@ public class AppController {
     }
 
 
-    class ConvertToSeriesEvent implements EventHandler<ActionEvent>{
+    class ConvertToSeriesEvent implements EventHandler<ActionEvent> {
         @Override
         public void handle(ActionEvent event) {
             gui.getGridPane().getChildren().clear();
@@ -173,7 +173,9 @@ public class AppController {
             Button convert = new Button("Convert");
             Label label = new Label();
 
+
             GridPane.setHalignment(convert, HPos.CENTER);
+            GridPane.setHalignment(label, HPos.CENTER);
 
             gui.getGridPane().add(title, 0, 0);
             gui.getGridPane().add(titleField, 0, 1);
@@ -186,11 +188,13 @@ public class AppController {
                 @Override
                 public void handle(ActionEvent event) {
                     label.setText("");
-                    if(!titleField.getText().isEmpty() && !seriesTitleField.getText().isEmpty()){
+                    if (!titleField.getText().isEmpty() && !seriesTitleField.getText().isEmpty()) {
                         Book book = literatureRegistry.convertToSeries(titleField.getText(), seriesTitleField.getText());
-                        if(book != null){
-                            label.setText("You converted " + book.getTitle() + " to a bookseries with seriestitle " + seriesTitleField.getText());
+                        if (book != null) {
+                            label.setText("You converted " + book.getTitle() + " to a bookseries \nwith seriestitle " + seriesTitleField.getText());
                         }
+                    } else{
+                        label.setText("You have to enter \ntext in all the fields");
                     }
                 }
             });
@@ -222,7 +226,6 @@ public class AppController {
 
             bookBox = new VBox();
             gui.getGridPane().add(bookBox, 0, 3);
-
 
             find.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -289,16 +292,14 @@ public class AppController {
                     if (!titleField.getText().isEmpty()) {
                         literature = literatureRegistry.findLiteratureByTitle(titleField.getText());
                         titleField.clear();
-                        if(literature != null){
-                        label.setText(checkLiterature(literature));
-                        }
-                        else{
+                        if (literature != null) {
+                            label.setText(checkLiterature(literature));
+                        } else {
                             label.setText("That title is not valid");
                         }
                     }
                 }
             });
-
         }
     }
 
@@ -394,7 +395,7 @@ public class AppController {
                         dateField.clear();
                         seriesTitleField.clear();
                     } else {
-                        label.setText("You have to enter text in all the fields");
+                        label.setText("You have to enter \ntext in all the fields");
                     }
                 }
             });
@@ -432,7 +433,7 @@ public class AppController {
                         field4.clear();
                         dateField.clear();
                     } else {
-                        label.setText("You have to enter text in all the fields");
+                        label.setText("You have to enter \ntext in all the fields");
                     }
                 }
             });
@@ -482,10 +483,10 @@ public class AppController {
                             literatureRegistry.addLiterature(new ComicBook(field1.getText(), field2.getText(), serialNumber, field4.getText()));
 
                         } catch (NumberFormatException nfe) {
-                            label.setText("You have to enter a valid number for the serial number");
+                            label.setText("You have to enter a valid number \nfor the serial number");
                         }
                     } else {
-                        label.setText("You have to enter text in all the fields");
+                        label.setText("You have to enter \ntext in all the fields");
                     }
                 }
             });
@@ -518,10 +519,10 @@ public class AppController {
                             literatureRegistry.addLiterature(new Newspaper(field1.getText(), field2.getText(), field3.getText(), releases));
 
                         } catch (NumberFormatException nfe) {
-                            label.setText("You have to enter a valid number for releases per year");
+                            label.setText("You have to enter a valid number \nfor releases per year");
                         }
                     } else {
-                        label.setText("You have to enter text in all the fields");
+                        label.setText("You have to enter \ntext in all the fields");
                     }
                 }
             });
