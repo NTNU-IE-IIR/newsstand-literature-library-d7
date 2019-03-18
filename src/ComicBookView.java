@@ -1,71 +1,67 @@
 import java.util.Scanner;
 
-public class ComicBookView {
+abstract public class ComicBookView {
 
-    public ComicBookView(){
+    public ComicBookView() {
+
     }
 
-    public static void viewComicBook(ComicBook comicBook){
-        String title = comicBook.getTitle();
-        String publisher = comicBook.getPublisher();
-        int serialNumber = comicBook.getSerialNumber();
-        String publishDate = comicBook.getPublishDate();
+    public static void viewComic(ComicBook comic) {
+        String title = comic.getTitle();
+        String publisher = comic.getPublisher();
+        int serialNumber = comic.getSerialNumber();
+        String publishingDate = comic.getPublishDate();
 
-        printInfo(title, publisher, serialNumber, publishDate);
+        System.out.println("Title: " + title + "\nDate: " + publishingDate + "\nPublisher: "
+                + publisher + "\nSerial number: " + serialNumber);
     }
 
-    private static void printInfo(String title, String publisher, int serialNumber, String publishDate){
-        System.out.println("-------------------------------------");
-        System.out.println("Title: " + title
-                        + "\nPublisher: " + publisher
-                        + "\nSerial number: " + serialNumber
-                        + "\nPublish Date: " + publishDate);
-        System.out.println("-------------------------------------");
-    }
-
-    public static Literature addComicBook(){
+    public static Literature addComic() {
         Scanner reader = new Scanner(System.in);
 
-        System.out.println("\nWhat is the title of the comic you want to add?");
+        System.out.println("ADD A NEW COMIC:");
+
+        System.out.println("What's the title of the comic?");
         String title = reader.nextLine();
+        while (title.isBlank()) {
+            System.out.println("Invalid input. Please type the title of the comic");
+            title = reader.nextLine();
+        }
 
-        System.out.println("\nWho published the comic?");
+        System.out.println("Who's the publisher of the comic?");
         String publisher = reader.nextLine();
+        while (publisher.isBlank()) {
+            System.out.println("Invalid input. Please type the publisher of the comic");
+            title = reader.nextLine();
+        }
 
-        System.out.println("\nWhat is the serialnumber of the comic?");
+
+        // The "nextInt will throw an exception if it's not an Integer. Add a catch to this method.
+
+        System.out.println("What's the serial number of the comic this year?");
         int serialNumber = 0;
 
-        if (reader.hasNextInt()) {
-            serialNumber = reader.nextInt();
-            reader.nextLine();
+        while(serialNumber <= 0){
+            if (reader.hasNextInt()) {
+                serialNumber = reader.nextInt();
+                reader.nextLine();
+            }
         }
 
-        System.out.println("\nWhat date was the comic published?");
-        String publishDate = reader.nextLine();
 
-        int errors = 0;
-
-        if (title.length() == 0) {
-            System.out.println("\nThe comic book has to have a title");
-            errors += 1;
-        }
-        if (publisher.length() == 0) {
-            System.out.println("\nThe comic book has to have a publisher");
-            errors += 1;
-        }
-        if (serialNumber <= 0) {
-            System.out.println("\nThat serial number is not valid, try again");
-            errors += 1;
-        }
-        if (publishDate.length() == 0) {
-            System.out.println("\nThe publish date is not valid, try again");
-            errors += 1;
+        System.out.println("What's the publish-date of the comic?");
+        String publishdate = reader.nextLine();
+        while (publishdate.isBlank()) {
+            System.out.println("Invalid input. Please type the publish-date of the comic");
+            publishdate = reader.nextLine();
         }
 
-        if (errors > 0) {
-            System.out.println("\nYou had " + errors + " errors when adding the comic book, please try again");
-            return null;
-        }
-        return new ComicBook(title, publisher, serialNumber, publishDate);
+
+        Literature comic = new ComicBook(title, publisher, serialNumber, publishdate);
+
+        System.out.println("Newspaper: " + title + ". By " + publisher + " was added to the registry");
+
+        return comic;
+
     }
 }
