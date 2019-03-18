@@ -18,7 +18,7 @@ public class BookTest {
     @Before
     public void setUp() throws Exception {
       book = new Book("Anders", "Javakongen", "moren til eskil hææ?",
-              "vol2", "12.01.10", "En intellektuell playboy" );
+              "vol2", "12.01.10" );
     }
 
     /**
@@ -80,23 +80,17 @@ public class BookTest {
         assertEquals(expectedResult,result);
     }
 
-    /**
-     * Test get series title.
-     */
-    @Test
-    public void  testGetSeriesTitle() {
-        String result = this.book.getSeriesTitle();
-        String expectedResult = "En intellektuell playboy";
-        assertEquals(expectedResult,result);
-    }
 
     /**
-     * Test is serie.
+     * Test get publish date.
      */
     @Test
-    public void testIsSerie() {
-            boolean result = this.book.isSerie();
-            boolean expectedResult = true;
-            assertEquals(expectedResult,result);
+    public void testConvertToSeries() {
+        Boolean result1 = book.isSerie();
+        assertFalse(result1);
+
+        Book BookTwo = book.convertToSeries("en serie tittel");
+        Boolean result2 = BookTwo.isSerie();
+         assertTrue(result2);
     }
 }
