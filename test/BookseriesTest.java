@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 public class BookseriesTest {
 
     private BookSeries bookseries;
+
     /**
      * Sets up.
      *
@@ -15,7 +16,7 @@ public class BookseriesTest {
     @Before
     public void setUp() throws Exception {
         bookseries = new BookSeries("Anders", "Javakongen", "moren til eskil hææ?",
-                "vol2", "12.01.10", "intellektuell playboy" );
+                "vol2", "12.01.10", "intellektuell playboy");
     }
 
     /**
@@ -31,26 +32,29 @@ public class BookseriesTest {
     public void getSeriesTitle() {
         String result = this.bookseries.getSeriesTitle();
         String expectedResult = "intellektuell playboy";
-        assertEquals(expectedResult,result);
+        assertEquals(expectedResult, result);
     }
 
     @Test
-    public void isSerie() {
-        Boolean result = this.bookseries.isSerie();
+    public void isSeries() {
+        Boolean result = this.bookseries.isSeries();
         assertTrue(result);
     }
 
     @Test
     public void getAuthor() {
-            String result = this.bookseries.getAuthor();
-            String expectedResult = "Anders";
-            assertEquals(expectedResult,result);
+        String result = this.bookseries.getAuthor();
+        BookSeries book = new BookSeries("Eskil", "Samsung", "PC", "45", "januar", "tiger");
+        String expectedResult = "Anders";
+        String resultFalse = book.getAuthor();
+        assertEquals(expectedResult, result);
+        assertNotEquals(expectedResult, resultFalse);
     }
 
     @Test
     public void getEdition() {
-                String result = this.bookseries.getEdition();
-                String expectedResult = "vol2";
-                assertEquals(expectedResult,result);
-        }
+        String result = this.bookseries.getEdition();
+        String expectedResult = "vol2";
+        assertEquals(expectedResult, result);
     }
+}

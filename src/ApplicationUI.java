@@ -158,7 +158,7 @@ public class ApplicationUI {
             NewspaperView.viewNewspaper(n);
         } else if (literature instanceof ComicBook) {
             ComicBook c = (ComicBook) literature;
-            ComicBookView.viewComicBook(c);
+            ComicBookView.viewComic(c);
         }
     }
 
@@ -168,9 +168,9 @@ public class ApplicationUI {
                 "3. Add Comic Book"
         };
 
+        try {
         int menuSelection = showMenu(literature);
 
-        try {
             if (menuSelection == 1) {
                 addBook();
             } else if (menuSelection == 2) {
@@ -186,13 +186,11 @@ public class ApplicationUI {
     private void addNewspaper() {
         Literature newspaper = NewspaperView.addNewspaper();
 
-        if (newspaper != null) {
             literatureRegister.addLiterature(newspaper);
-        }
     }
 
     private void addComicBook() {
-        Literature comicBook = ComicBookView.addComicBook();
+        Literature comicBook = ComicBookView.addComic();
 
         if (comicBook != null) {
             literatureRegister.addLiterature(comicBook);
@@ -213,16 +211,13 @@ public class ApplicationUI {
             String input = reader.nextLine();
             if (input.equalsIgnoreCase("y")) {
                 Literature literature = BookSeriesView.addBookSeries();
-                if (literature != null) {
                     literatureRegister.addLiterature(literature);
                     spellcheck = false;
-                }
+
             } else if (input.equalsIgnoreCase("n")) {
                 Literature literature = BookView.addBook();
-                if (literature != null) {
                     literatureRegister.addLiterature(literature);
                     spellcheck = false;
-                }
             } else {
                 System.out.println("\nPlease input either y for yes or n for no");
             }

@@ -32,20 +32,19 @@ abstract public class ComicBookView {
         String publisher = reader.nextLine();
         while (publisher.isBlank()) {
             System.out.println("Invalid input. Please type the publisher of the comic");
-            title = reader.nextLine();
+            publisher = reader.nextLine();
         }
 
-
-        // The "nextInt will throw an exception if it's not an Integer. Add a catch to this method.
 
         System.out.println("What's the serial number of the comic this year?");
         int serialNumber = 0;
 
-        while(serialNumber <= 0){
+        while (serialNumber <= 0) {
             if (reader.hasNextInt()) {
+                System.out.println("Invalid input. Please enter a valid serial number");
                 serialNumber = reader.nextInt();
-                reader.nextLine();
             }
+            reader.nextLine();
         }
 
 
@@ -59,7 +58,7 @@ abstract public class ComicBookView {
 
         Literature comic = new ComicBook(title, publisher, serialNumber, publishdate);
 
-        System.out.println("Newspaper: " + title + ". By " + publisher + " was added to the registry");
+        System.out.println("Comic book: " + title + " by " + publisher + " was added to the registry");
 
         return comic;
 

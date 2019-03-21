@@ -17,8 +17,8 @@ public class BookTest {
      */
     @Before
     public void setUp() throws Exception {
-      book = new Book("Anders", "Javakongen", "moren til eskil hææ?",
-              "vol2", "12.01.10" );
+        book = new Book("Anders", "Javakongen", "moren til eskil hææ?",
+                "vol2", "12.01.10");
     }
 
     /**
@@ -37,7 +37,7 @@ public class BookTest {
     public void testGetAuthor() {
         String result = this.book.getAuthor();
         String expectedResult = "Anders";
-        assertEquals(expectedResult,result);
+        assertEquals(expectedResult, result);
     }
 
     /**
@@ -47,7 +47,7 @@ public class BookTest {
     public void testGetTitle() {
         String result = this.book.getTitle();
         String expectedResult = "Javakongen";
-        assertEquals(expectedResult,result);
+        assertEquals(expectedResult, result);
     }
 
     /**
@@ -57,7 +57,7 @@ public class BookTest {
     public void testGetPublisher() {
         String result = this.book.getPublisher();
         String expectedResult = "moren til eskil hææ?";
-        assertEquals(expectedResult,result);
+        assertEquals(expectedResult, result);
     }
 
     /**
@@ -67,7 +67,7 @@ public class BookTest {
     public void testGetEdition() {
         String result = this.book.getEdition();
         String expectedResult = "vol2";
-        assertEquals(expectedResult,result);
+        assertEquals(expectedResult, result);
     }
 
     /**
@@ -77,7 +77,7 @@ public class BookTest {
     public void testGetPublishDate() {
         String result = this.book.getPublishDate();
         String expectedResult = "12.01.10";
-        assertEquals(expectedResult,result);
+        assertEquals(expectedResult, result);
     }
 
 
@@ -86,11 +86,11 @@ public class BookTest {
      */
     @Test
     public void testConvertToSeries() {
-        Boolean result1 = book.isSerie();
+        Boolean result1 = book.isSeries();
         assertFalse(result1);
 
         Book BookTwo = book.convertToSeries("en serie tittel");
-        Boolean result2 = BookTwo.isSerie();
-         assertTrue(result2);
+        Boolean result2 = BookTwo.isSeries();
+        assertTrue(result2);
     }
 }

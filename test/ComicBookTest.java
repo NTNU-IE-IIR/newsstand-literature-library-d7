@@ -23,7 +23,7 @@ public class ComicBookTest {
      */
     @Test
     public void testGetSerialNumber() {
-        int result = this.comicBook.serialNumber;
+        int result = this.comicBook.getSerialNumber();
         int expectedResult = 1;
         assertEquals(expectedResult, result);
     }

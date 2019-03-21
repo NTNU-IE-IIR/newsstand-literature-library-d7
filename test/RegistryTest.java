@@ -34,7 +34,7 @@ public class RegistryTest {
         book1 = new Book("Eskil", "Trondheim", "NTNU", "volum8", "04.01.2019");
         book2 = new Book("Hurlen", "Lillestrøm", "NTNU", "volum9", "04.07.2019");
         comicbook = new ComicBook("Tjommi", "Tjommi", 2, "volum3");
-        newspaper = new Newspaper("tittel", "Bruh", "NTNU", 3, "sjanger", "type");
+        newspaper = new Newspaper("tittel", "Bruh", "sjanger", 3);
         bookseries = new BookSeries("Eskil", "Shiii", "Smartwater", "volumHæ", "01.01.2001", "Samsung");
 
         harry = new Book("Anders", "Javakongen", "moren til eskil hææ?",
@@ -61,7 +61,7 @@ public class RegistryTest {
      */
     @Test
     public void testAddLiterature() {
-        List<Literature> registryBookList = this.registry.getLiteratureCollection();
+        List<Literature> registryBookList = this.registry.getLiteratureList();
 
         book6 = new Book("Rune", "Pose", "Tastatur", "volumHæ", "01.01.2001");
 
@@ -75,7 +75,7 @@ public class RegistryTest {
      */
     @Test
     public void testGetNumberOfBooks() {
-        int result = this.registry.getnumberOfLiterature();
+        int result = this.registry.getNumberOfLiterature();
         int expectedResult = 5;
         int expectedFalse = 1337;
         assertEquals(expectedResult, result);
@@ -100,11 +100,11 @@ public class RegistryTest {
     @Test
     public void testRemoveBookByTitle() {
 
-        assertTrue(this.registry.getLiteratureCollection().contains(book1));
+        assertTrue(this.registry.getLiteratureList().contains(book1));
         this.registry.removeLiteratureByTitle("Trondheim");
-        assertFalse(this.registry.getLiteratureCollection().contains(book1));
+        assertFalse(this.registry.getLiteratureList().contains(book1));
 
-        List<Literature> registryBookList = this.registry.getLiteratureCollection();
+        List<Literature> registryBookList = this.registry.getLiteratureList();
         int expected = 4;
         this.registry.removeLiteratureByTitle("");
         int result = registryBookList.size();
@@ -126,20 +126,16 @@ public class RegistryTest {
         for(Book b: result) {
             assertEquals(expected, b.getAuthor());
             assertNotEquals(expectedFalse, book1.getAuthor());
-
-            // REEEEEEEEEEEEEEEE
-
-            // Problems with testing multiple instances of books with the same author...
         }
     }
 
     @Test
     public void testConvertToSeries() {
-        Boolean result1 = book1.isSerie();
+        Boolean result1 = book1.isSeries();
         assertFalse(result1);
 
-        Book b = registry.convertToSeries("Trondheim" , "en serie tittel");
-        Boolean result2 = b.isSerie();
+        Book b = registry.convertToSeries("Trondheim" , "en serietittel");
+        Boolean result2 = b.isSeries();
         assertTrue(result2);
     }
 

@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class BookView {
+abstract public class BookView {
 
     public BookView() {
     }
@@ -28,19 +28,35 @@ public class BookView {
     public static Literature addBook() {
         System.out.println("\nWhat is the name of the author?");
         Scanner reader = new Scanner(System.in);
+
         String author = reader.nextLine();
+        while (author.isEmpty()) {
+            author = reader.nextLine();
+        }
 
         System.out.println("\nWhat is the title of the book?");
         String title = reader.nextLine();
+        while(title.isEmpty()){
+            title = reader.nextLine();
+        }
 
         System.out.println("\nWho published the book?");
         String publisher = reader.nextLine();
+        while (publisher.isEmpty()) {
+            publisher = reader.nextLine();
+        }
 
         System.out.println("\nWhich edition of the book is it?");
         String edition = reader.nextLine();
+        while (edition.isEmpty()) {
+            edition = reader.nextLine();
+        }
 
         System.out.println("\nWhat date was the book published?");
         String date = reader.nextLine();
+        while (date.isEmpty()) {
+            date = reader.nextLine();
+        }
 
         int errors = 0;
 
