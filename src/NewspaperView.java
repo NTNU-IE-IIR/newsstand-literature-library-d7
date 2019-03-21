@@ -1,12 +1,11 @@
-public class NewspaperView {
-    private Newspaper newspaper;
+import java.util.Scanner;
 
-    public NewspaperView(Newspaper newspaper){
-        this.newspaper = newspaper;
-        viewNewspaper();
+abstract public class NewspaperView {
+
+    public NewspaperView() {
     }
 
-    private void viewNewspaper(){
+    public static void viewNewspaper(Newspaper newspaper) {
         String title = newspaper.getTitle();
         String publisher = newspaper.getPublisher();
         String genre = newspaper.getGenre();
@@ -15,12 +14,43 @@ public class NewspaperView {
         printInfo(title, publisher, genre, releases);
     }
 
-    private void printInfo(String title, String publisher, String genre, int releases){
+    private static void printInfo(String title, String publisher, String genre, int releases) {
         System.out.println("-------------------------------------");
         System.out.println("Title: " + title
-                        + "\nPublisher: " + publisher
-                        + "\nGenre: " + genre
-                        + "\nReleases: " + releases);
+                + "\nPublisher: " + publisher
+                + "\nGenre: " + genre
+                + "\nReleases: " + releases);
         System.out.println("-------------------------------------");
+    }
+
+    public static Literature addNewspaper() {
+        Scanner reader = new Scanner(System.in);
+
+        System.out.println("\nWhat is the title of the newspaper you want to add?");
+        String title = reader.nextLine();
+        while (title.isEmpty()) {
+            title = reader.nextLine();
+        }
+
+        System.out.println("\nWho published the newspaper?");
+        String publisher = reader.nextLine();
+        while (publisher.isEmpty()) {
+            publisher = reader.nextLine();
+        }
+
+        System.out.println("\nWhat is the genre of the newspaper?");
+        String genre = reader.nextLine();
+        while (genre.isEmpty()) {
+            genre = reader.nextLine();
+        }
+
+        int releasesPerYear = 0;
+        System.out.println("\nHow many releases per year has the newspaper?");
+        while (releasesPerYear <= 0) {
+            if (reader.hasNextInt()) {
+                releasesPerYear = reader.nextInt();
+            }
+        }
+        return new Newspaper(title, publisher, genre, releasesPerYear);
     }
 }

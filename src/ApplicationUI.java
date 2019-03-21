@@ -149,16 +149,16 @@ public class ApplicationUI {
     private void checkLiterature(Literature literature) {
         if (literature instanceof BookSeries) {
             BookSeries b = (BookSeries) literature;
-            new BookSeriesView(b);
+            BookSeriesView.viewBookSeries(b);
         } else if (literature instanceof Book) {
             Book b = (Book) literature;
-            new BookView(b);
+            BookView.viewBook(b);
         } else if (literature instanceof Newspaper) {
             Newspaper n = (Newspaper) literature;
-            new NewspaperView(n);
+            NewspaperView.viewNewspaper(n);
         } else if (literature instanceof ComicBook) {
             ComicBook c = (ComicBook) literature;
-            new ComicBookView(c);
+            ComicBookView.viewComic(c);
         }
     }
 
@@ -168,9 +168,9 @@ public class ApplicationUI {
                 "3. Add Comic Book"
         };
 
+        try {
         int menuSelection = showMenu(literature);
 
-        try {
             if (menuSelection == 1) {
                 addBook();
             } else if (menuSelection == 2) {
@@ -184,96 +184,17 @@ public class ApplicationUI {
     }
 
     private void addNewspaper() {
-        Scanner reader = new Scanner(System.in);
+        Literature newspaper = NewspaperView.addNewspaper();
 
-        System.out.println("\nWhat is the title of the newspaper you want to add?");
-        String title = reader.nextLine();
-
-        System.out.println("\nWho published the newspaper?");
-        String publisher = reader.nextLine();
-
-        System.out.println("\nWhat is the genre of the newspaper?");
-        String genre = reader.nextLine();
-
-        int releasesPerYear = 0;
-        System.out.println("\nHow many releases per year has the newspaper?");
-        if (reader.hasNextInt()) {
-            releasesPerYear = reader.nextInt();
-        }
-
-        int errors = 0;
-
-        if (title.length() == 0) {
-            System.out.println("\nThe newspaper has to have a title");
-            errors += 1;
-        }
-        if (publisher.length() == 0) {
-            System.out.println("\nThe newspaper has to have a publisher");
-            errors += 1;
-        }
-        if (genre.length() == 0) {
-            System.out.println("\nThat newspaper has to have a genre");
-            errors += 1;
-        }
-
-        if (releasesPerYear == 0) {
-            System.out.println("\nThe number for releases per year is not valid, please try again");
-            return;
-        }
-
-        if (errors > 0) {
-            System.out.println("\nYou had " + errors + " errors when adding the newspaper, please try again");
-            return;
-        }
-
-        literatureRegister.addLiterature(new Newspaper(title, publisher, genre, releasesPerYear));
+            literatureRegister.addLiterature(newspaper);
     }
 
     private void addComicBook() {
-        Scanner reader = new Scanner(System.in);
+        Literature comicBook = ComicBookView.addComic();
 
-        System.out.println("\nWhat is the title of the comic you want to add?");
-        String title = reader.nextLine();
-
-        System.out.println("\nWho published the comic?");
-        String publisher = reader.nextLine();
-
-        System.out.println("\nWhat is the serialnumber of the comic?");
-        int serialNumber = 0;
-
-        if (reader.hasNextInt()) {
-            serialNumber = reader.nextInt();
-            reader.nextLine();
+        if (comicBook != null) {
+            literatureRegister.addLiterature(comicBook);
         }
-
-        System.out.println("\nWhat date was the comic published?");
-        String publishDate = reader.nextLine();
-
-        int errors = 0;
-
-        if (title.length() == 0) {
-            System.out.println("\nThe comic book has to have a title");
-            errors += 1;
-        }
-        if (publisher.length() == 0) {
-            System.out.println("\nThe comic book has to have a publisher");
-            errors += 1;
-        }
-        if (serialNumber <= 0) {
-            System.out.println("\nThat serial number is not valid, try again");
-            errors += 1;
-        }
-        if (publishDate.length() == 0) {
-            System.out.println("\nThe publish date is not valid, try again");
-            errors += 1;
-        }
-
-        if (errors > 0) {
-            System.out.println("\nYou had " + errors + " errors when adding the comic book, please try again");
-            return;
-        }
-
-        literatureRegister.addLiterature(new ComicBook(title, publisher, serialNumber, publishDate));
     }
 
     /**
@@ -281,49 +202,7 @@ public class ApplicationUI {
      * input in the terminal
      */
     private void addBook() {
-        System.out.println("\nWhat is the name of the author?");
         Scanner reader = new Scanner(System.in);
-        String author = reader.nextLine();
-
-        System.out.println("\nWhat is the title of the book?");
-        String title = reader.nextLine();
-
-        System.out.println("\nWho published the book?");
-        String publisher = reader.nextLine();
-
-        System.out.println("\nWhich edition of the book is it?");
-        String edition = reader.nextLine();
-
-        System.out.println("\nWhat date was the book published?");
-        String date = reader.nextLine();
-
-        int errors = 0;
-
-        if (author.length() == 0) {
-            System.out.println("\nThe book has to have an author");
-            errors += 1;
-        }
-        if (title.length() == 0) {
-            System.out.println("\nThe book has to have a title");
-            errors += 1;
-        }
-        if (publisher.length() == 0) {
-            System.out.println("\nThe book has to have a publisher");
-            errors += 1;
-        }
-        if (edition.length() == 0) {
-            System.out.println("\nYou didn't insert which edition the book was");
-            errors += 1;
-        }
-        if (date.length() == 0) {
-            System.out.println("\nYou didn't insert a release date for the book");
-            errors += 1;
-        }
-
-        if (errors > 0) {
-            System.out.println("\nYou had " + errors + " errors when adding the book, please try again");
-            return;
-        }
 
         Boolean spellcheck = true;
 
@@ -331,19 +210,14 @@ public class ApplicationUI {
             System.out.println("\nIs the book part of a series? If yes type y, if no type n");
             String input = reader.nextLine();
             if (input.equalsIgnoreCase("y")) {
-                System.out.println("\nWhat is the series' title?");
-                String seriesTitle = reader.nextLine();
-
-                if (seriesTitle.length() == 0) {
-                    System.out.println("\nThe series title can't be empty, please try again");
-                } else {
-                    literatureRegister.addLiterature(new BookSeries(author, title, publisher, edition, date, seriesTitle));
+                Literature literature = BookSeriesView.addBookSeries();
+                    literatureRegister.addLiterature(literature);
                     spellcheck = false;
-                }
 
             } else if (input.equalsIgnoreCase("n")) {
-                literatureRegister.addLiterature(new Book(author, title, publisher, edition, date));
-                spellcheck = false;
+                Literature literature = BookView.addBook();
+                    literatureRegister.addLiterature(literature);
+                    spellcheck = false;
             } else {
                 System.out.println("\nPlease input either y for yes or n for no");
             }
@@ -386,12 +260,7 @@ public class ApplicationUI {
             System.out.println("\nThere are no books by the selected author in the registry");
         } else {
             for (Book b : authorBookList) {
-                if (b instanceof BookSeries) {
-                    BookSeries book = (BookSeries) b;
-                    new BookSeriesView(book);
-                } else {
-                    new BookView(b);
-                }
+                checkLiterature(b);
             }
         }
     }
@@ -416,28 +285,16 @@ public class ApplicationUI {
     }
 
     private void convertToSeries() {
-        Scanner reader = new Scanner(System.in);
-        System.out.println("\nWhat is the title of the book you want to convert?");
-        String title = reader.nextLine();
+        String[] array = BookView.convertToSeries();
+        Book book = null;
 
-        if (title.length() == 0) {
-            System.out.println("\nYou have to enter a title, please try again");
-            return;
+        if (array != null) {
+            book = literatureRegister.convertToSeries(array[0], array[1]);
         }
-
-        System.out.println("\nWhat is the seriestitle you want to use?");
-        String seriesTitle = reader.nextLine();
-
-        if (seriesTitle.length() == 0) {
-            System.out.println("\nYou have to enter a seriestitle, please try again");
-            return;
-        }
-
-        Book book = literatureRegister.convertToSeries(title, seriesTitle);
         if (book == null) {
             System.out.println("\nThere were no books in the registry with that title or the book is already a series, please try again");
         } else {
-            System.out.println("\n" + title + " was converted to a bookseries with seriestitle " + seriesTitle);
+            System.out.println("\n" + array[0] + " was converted to a bookseries with seriestitle " + array[1]);
         }
     }
 }

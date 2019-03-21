@@ -148,25 +148,25 @@ public class Registry {
      * @return an ArrayList of all the books containing the author.
      */
     public ArrayList<Literature> findLiteratureByPublisher(String publisher) {
-        ArrayList<Literature> publisherBookList = new ArrayList<>();
+        ArrayList<Literature> publisherLiteratureList = new ArrayList<>();
         for (Literature b : literatureList) {
             if (b.getPublisher().equalsIgnoreCase(publisher)) {
-                publisherBookList.add(b);
+                publisherLiteratureList.add(b);
             }
         }
-        return publisherBookList;
+        return publisherLiteratureList;
     }
-    
+
     public Book convertToSeries(String title, String seriesTitle) {
         Literature book = findLiteratureByTitle(title);
-        /*if (book == null || book instanceof BookSeries) {
+        if (book == null || book instanceof BookSeries) {
             return null;
-        }*/
+        }
 
         if (book instanceof Book) {
             Book b = (Book) book;
-            removeLiteratureByTitle(title);
             b = b.convertToSeries(seriesTitle);
+            removeLiteratureByTitle(title);
             addLiterature(b);
             return b;
         }

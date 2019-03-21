@@ -1,12 +1,11 @@
-public class BookSeriesView {
-    private BookSeries bookSeries;
+import java.util.Scanner;
 
-    public BookSeriesView(BookSeries book){
-        this.bookSeries = book;
-        viewBook();
+abstract public class BookSeriesView {
+
+    public BookSeriesView(){
     }
 
-    private void viewBook(){
+    public static void viewBookSeries(BookSeries bookSeries){
         String title = bookSeries.getTitle();
         String seriesTitle = bookSeries.getSeriesTitle();
         String author = bookSeries.getAuthor();
@@ -17,7 +16,7 @@ public class BookSeriesView {
         printInfo(title, author, date, publisher, edition, seriesTitle);
     }
 
-    private void printInfo(String title, String author, String date, String publisher, String edition, String seriesTitle){
+    private static void printInfo(String title, String author, String date, String publisher, String edition, String seriesTitle){
         System.out.println("-------------------------------------");
         System.out.println("Title: " + title
                         + "\nSeries Title: " + seriesTitle
@@ -26,5 +25,46 @@ public class BookSeriesView {
                         + "\nPublisher: " + publisher
                         + "\nEdition: " + edition);
         System.out.println("-------------------------------------");
+    }
+
+    public static Literature addBookSeries(){
+        System.out.println("\nWhat is the name of the author?");
+        Scanner reader = new Scanner(System.in);
+        String author = reader.nextLine();
+        while (author.isEmpty()) {
+            author = reader.nextLine();
+        }
+
+        System.out.println("\nWhat is the title of the bookseries?");
+        String title = reader.nextLine();
+        while (title.isEmpty()) {
+            title = reader.nextLine();
+        }
+
+        System.out.println("\nWho published the bookseries?");
+        String publisher = reader.nextLine();
+        while (publisher.isEmpty()) {
+            publisher = reader.nextLine();
+        }
+
+        System.out.println("\nWhich edition of the bookseries is it?");
+        String edition = reader.nextLine();
+        while (edition.isEmpty()) {
+            edition = reader.nextLine();
+        }
+
+        System.out.println("\nWhat date was the bookseries published?");
+        String date = reader.nextLine();
+        while (date.isEmpty()) {
+            date = reader.nextLine();
+        }
+
+        System.out.println("\nWhat is the series title?");
+        String seriesTitle = reader.nextLine();
+        while (seriesTitle.isEmpty()) {
+            seriesTitle = reader.nextLine();
+        }
+
+        return new BookSeries(author, title, publisher, edition, date, seriesTitle);
     }
 }

@@ -2,87 +2,142 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * The type Registry test.
+ */
 public class RegistryTest {
-    private Registry test;
+    private Literature harry;
     private Book book1;
-    private Book book2;
-    private Book book3;
-    private Book book4;
-    private Book book5;
-    private Book book6;
+    private Literature book2;
+    private Literature comicbook;
+    private Literature newspaper;
+    private Literature bookseries;
+    private Literature book6;
 
+
+
+    private Registry registry;
+
+    /**
+     * Sets up.
+     *
+     * @throws Exception the exception
+     */
     @Before
     public void setUp() throws Exception {
-        test = new Registry();
+        registry = new Registry();
+
         book1 = new Book("Eskil", "Trondheim", "NTNU", "volum8", "04.01.2019");
         book2 = new Book("Hurlen", "Lillestrøm", "NTNU", "volum9", "04.07.2019");
-        book3 = new Book("Eskil", "Tjommi", "NTNU", "volum3", "019.02.2017");
-        book4 = new Book("Yusuf", "Bruh", "NTNU", "volumHæ", "01.01.2001");
-        book5 = new Book("Yusuf", "Shiii", "Smartwater", "volumHæ", "01.01.2001", "Samsung");
-        book6 = new Book("Rune", "Pose", "Tastatur", "volumHæ", "01.01.2001", "Varsom");
-        test.addBook(book1);
-        test.addBook(book2);
-        test.addBook(book3);
-        test.addBook(book4);
-        test.addBook(book5);
-        test.addBook(book6);
+        comicbook = new ComicBook("Tjommi", "Tjommi", 2, "volum3");
+        newspaper = new Newspaper("tittel", "Bruh", "sjanger", 3);
+        bookseries = new BookSeries("Eskil", "Shiii", "Smartwater", "volumHæ", "01.01.2001", "Samsung");
+
+        harry = new Book("Anders", "Javakongen", "moren til eskil hææ?",
+                "vol2", "12.01.10");
+
+        registry.addLiterature(book1);
+        registry.addLiterature(book2);
+        registry.addLiterature(comicbook);
+        registry.addLiterature(newspaper);
+        registry.addLiterature(bookseries);
     }
 
+    /**
+     * Tear down.
+     *
+     * @throws Exception the exception
+     */
     @After
     public void tearDown() throws Exception {
     }
 
+    /**
+     * Test add book.
+     */
     @Test
-    public void addBook() {
-        Book bok1 = new Book("", "Anders", "NTNU", "4", "1504");
-        Book bok2 = new Book("HP", "Anders", "NTNU", "4", "1504");
-        test.addBook(bok1);
-        ArrayList<Book> testList = test.getBookList();
-        assertTrue(testList.contains(bok1));
-        assertFalse(testList.contains(bok2));
+    public void testAddLiterature() {
+        List<Literature> registryBookList = this.registry.getLiteratureList();
+
+        book6 = new Book("Rune", "Pose", "Tastatur", "volumHæ", "01.01.2001");
+
+        this.registry.addLiterature(harry);
+        assertFalse(registryBookList.contains(book6));
+        assertTrue(registryBookList.contains(harry));
     }
 
+    /**
+     * Test get number of books.
+     */
     @Test
-    public void getNumberOfBooks() {
-        int expected = 6;
-        int expectedFalse = 0;
-        int result = test.getNumberOfBooks();
-        assertEquals(expected, result);
-        assertNotEquals(expectedFalse, result);
+    public void testGetNumberOfBooks() {
+        int result = this.registry.getNumberOfLiterature();
+        int expectedResult = 5;
+        int expectedFalse = 1337;
+        assertEquals(expectedResult, result);
+        assertNotEquals(expectedFalse,result);
     }
 
-
+    /**
+     * Test find book by title.
+     */
     @Test
-    public void findBookByTitle() {
-        Book result1 = test.findBookByTitle("Bruh");
-        Book result2 = test.findBookByTitle("");
-        Book expectedTrue = book4;
-        Book expectedFalse = book1;
-        assertEquals(expectedTrue, result1);
-        assertNotEquals(expectedFalse, result1);
-        assertNotEquals(expectedTrue, result2);
+    public void testFindBookByTitle() {
+        Literature result = this.registry.findLiteratureByTitle("Tjommi");
+        Literature expectedResult = comicbook;
+        Literature expectedFalse = book1;
+        assertEquals(expectedResult,result);
+        assertFalse(expectedFalse == result);
     }
 
+    /**
+     * Test remove book by title.
+     */
     @Test
-    public void removeBookByTitle() {
-        Book temp = test.removeBookByTitle("Bruh");
-        assertFalse(test.getBookList().contains(temp));
-        assertTrue(test.getBookList().contains(book1));
+    public void testRemoveBookByTitle() {
+
+        assertTrue(this.registry.getLiteratureList().contains(book1));
+        this.registry.removeLiteratureByTitle("Trondheim");
+        assertFalse(this.registry.getLiteratureList().contains(book1));
+
+        List<Literature> registryBookList = this.registry.getLiteratureList();
+        int expected = 4;
+        this.registry.removeLiteratureByTitle("");
+        int result = registryBookList.size();
+        assertEquals(expected,result);
     }
 
+    /**
+     * Find book by author.
+     */
     @Test
-    public void findBookByAuthor() {
-        ArrayList<Book> result = test.findBookByAuthor("Yusuf");
-        String expected = "Yusuf";
-        String expectedFalse = "Busuf";
+    public void testFindBookByAuthor() {
+        List<Book> result = this.registry.findBookByAuthor("Eskil");
 
-        for (Book b : result) {
+        String expected = "Eskil";
+        Literature expectedFalse = book2;
+
+        assertTrue(result.size() !=0);
+
+        for(Book b: result) {
             assertEquals(expected, b.getAuthor());
-            assertNotEquals(expectedFalse, b.getAuthor());
+            assertNotEquals(expectedFalse, book1.getAuthor());
         }
     }
+
+    @Test
+    public void testConvertToSeries() {
+        Boolean result1 = book1.isSeries();
+        assertFalse(result1);
+
+        Book b = registry.convertToSeries("Trondheim" , "en serietittel");
+        Boolean result2 = b.isSeries();
+        assertTrue(result2);
+    }
+
+
 }
