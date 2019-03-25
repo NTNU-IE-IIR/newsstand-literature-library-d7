@@ -20,20 +20,20 @@ public class Registry {
     /**
      * Fill registry with dummies.
      */
-    /*public void fillRegistryWithDummies() {
-        Book book1 = new Book("Eskil", "Trondheim", "NTNU", "volum8", "04.01.2019");
-        Book book2 = new Book("Hurlen", "Lillestrøm", "NTNU", "volum9", "04.07.2019");
-        Book book3 = new Book("Eskil", "Tjommi", "NTNU", "volum3", "019.02.2017");
-        Book book4 = new Book("Yusuf", "Bruh", "NTNU", "volumHæ", "01.01.2001");
-        Book book5 = new Book("Sigurd", "Shiii", "Smartwater", "volumHæ", "01.01.2001", "Samsung");
-        Book book6 = new Book("Rune", "Pose", "Tastatur", "volumHæ", "01.01.2001", "Varsom");
-        addBook(book1);
-        addBook(book2);
-        addBook(book3);
-        addBook(book4);
-        addBook(book5);
-        addBook(book6);
-    }*/
+    public void fillRegistryWithDummies() {
+        Literature book1 = new Book("Eskil", "Trondheim", "NTNU", "volum8", "04.01.2019");
+        Literature book2 = new Book("Hurlen", "Lillestrøm", "NTNU", "volum9", "04.07.2019");
+        Literature comic = new ComicBook("Eskil", "Tjommi", 2, "19. april");
+        Literature comic2 = new ComicBook("Sigurd", "Shiii", 15, "01.01.2001");
+        Literature newspaper = new Newspaper("Yusuf", "Bruh", "NTNU", 53);
+        Literature book6 = new BookSeries("Hurlen", "Trondheim", "Tastatur", "volumHæ", "01.01.2001", "Varsom");
+        addLiterature(book1);
+        addLiterature(book2);
+        addLiterature(comic);
+        addLiterature(comic2);
+        addLiterature(newspaper);
+        addLiterature(book6);
+    }
 
 
     /**
@@ -95,7 +95,7 @@ public class Registry {
         Iterator<Literature> it = this.literatureList.iterator();
         while (it.hasNext()) {
             Literature b = it.next();
-            if (b.getTitle().equals(title)) {
+            if (b.getTitle().equalsIgnoreCase(title)) {
                 return b;
             }
         }

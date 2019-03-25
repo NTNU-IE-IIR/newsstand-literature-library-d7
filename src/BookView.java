@@ -17,7 +17,8 @@ abstract public class BookView {
 
     private static void printInfo(String title, String author, String date, String publisher, String edition) {
         System.out.println("-------------------------------------");
-        System.out.println("Title: " + title
+        System.out.println("Book" +
+                "\nTitle: " + title
                 + "\nAuthor: " + author
                 + "\nDate: " + date
                 + "\nPublisher: " + publisher
@@ -26,6 +27,8 @@ abstract public class BookView {
     }
 
     public static Literature addBook() {
+        System.out.println("\nADD A NEW BOOK:");
+
         System.out.println("\nWhat is the name of the author?");
         Scanner reader = new Scanner(System.in);
 
