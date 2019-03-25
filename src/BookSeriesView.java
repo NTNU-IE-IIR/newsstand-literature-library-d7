@@ -2,10 +2,10 @@ import java.util.Scanner;
 
 abstract public class BookSeriesView {
 
-    public BookSeriesView(){
+    public BookSeriesView() {
     }
 
-    public static void viewBookSeries(BookSeries bookSeries){
+    public static void viewBookSeries(BookSeries bookSeries) {
         String title = bookSeries.getTitle();
         String seriesTitle = bookSeries.getSeriesTitle();
         String author = bookSeries.getAuthor();
@@ -16,18 +16,21 @@ abstract public class BookSeriesView {
         printInfo(title, author, date, publisher, edition, seriesTitle);
     }
 
-    private static void printInfo(String title, String author, String date, String publisher, String edition, String seriesTitle){
+    private static void printInfo(String title, String author, String date, String publisher, String edition, String seriesTitle) {
         System.out.println("-------------------------------------");
-        System.out.println("Title: " + title
-                        + "\nSeries Title: " + seriesTitle
-                        + "\nAuthor: " + author
-                        + "\nDate: " + date
-                        + "\nPublisher: " + publisher
-                        + "\nEdition: " + edition);
+        System.out.println("Bookseries" +
+                "\nTitle: " + title
+                + "\nSeries Title: " + seriesTitle
+                + "\nAuthor: " + author
+                + "\nDate: " + date
+                + "\nPublisher: " + publisher
+                + "\nEdition: " + edition);
         System.out.println("-------------------------------------");
     }
 
-    public static Literature addBookSeries(){
+    public static Literature addBookSeries() {
+        System.out.println("\nADD A NEW BOOKSERIES:");
+
         System.out.println("\nWhat is the name of the author?");
         Scanner reader = new Scanner(System.in);
         String author = reader.nextLine();

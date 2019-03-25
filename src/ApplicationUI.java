@@ -22,7 +22,8 @@ public class ApplicationUI {
             "3. Find a literature by title",
             "4. Find book(s) by author",
             "5. Remove literature by title",
-            "6. Convert a book to a bookseries"
+            "6. Convert a book to a bookseries",
+            "7. Fill registry with dummies"
     };
 
 
@@ -73,6 +74,10 @@ public class ApplicationUI {
                         break;
 
                     case 7:
+                        this.fillRegistryWithDummies();
+                        break;
+
+                    case 8:
                         System.out.println("\nThank you for using Application v0.1. Bye!\n");
                         quit = true;
                         break;
@@ -123,6 +128,12 @@ public class ApplicationUI {
      */
     private void init() {
         literatureRegister = new Registry();
+    }
+
+
+    private void fillRegistryWithDummies(){
+        literatureRegister.fillRegistryWithDummies();
+        System.out.println("\nRegistry filled with dummies");
     }
 
 

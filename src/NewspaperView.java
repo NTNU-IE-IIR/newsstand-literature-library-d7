@@ -16,7 +16,8 @@ abstract public class NewspaperView {
 
     private static void printInfo(String title, String publisher, String genre, int releases) {
         System.out.println("-------------------------------------");
-        System.out.println("Title: " + title
+        System.out.println("Newspaper" +
+                "\nTitle: " + title
                 + "\nPublisher: " + publisher
                 + "\nGenre: " + genre
                 + "\nReleases: " + releases);
@@ -24,6 +25,8 @@ abstract public class NewspaperView {
     }
 
     public static Literature addNewspaper() {
+        System.out.println("\nADD A NEW NEWSPAPER:");
+
         Scanner reader = new Scanner(System.in);
 
         System.out.println("\nWhat is the title of the newspaper you want to add?");
@@ -49,7 +52,10 @@ abstract public class NewspaperView {
         while (releasesPerYear <= 0) {
             if (reader.hasNextInt()) {
                 releasesPerYear = reader.nextInt();
+            } else {
+                System.out.println("Invalid input. Please enter a valid number of releases per year");
             }
+            reader.nextLine();
         }
         return new Newspaper(title, publisher, genre, releasesPerYear);
     }
